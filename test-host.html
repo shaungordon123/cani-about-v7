@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Hybrid auto-height host — isolation test</title>
+<style>
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+  .bar{background:#0B0D11;color:#fff;padding:18px;text-align:center;font-weight:700;letter-spacing:.05em}
+  .foot{background:#0E0F16;color:#9aa;padding:48px 24px;text-align:center;font-size:14px}
+  .foot b{color:#EC1280}
+</style>
+<script src="https://shaungordon123.github.io/cani-about-v7/cani-about-host.js?v=1" defer></script>
+</head><body>
+<div class="bar">FAKE WIX GLOBAL HEADER &nbsp;·&nbsp; one page scrollbar only, no nested scroll</div>
+<cani-about-host></cani-about-host>
+<div class="foot">FAKE WIX GLOBAL FOOTER &nbsp;—&nbsp; if this sits <b>directly below</b> the full embed with a single page scrollbar, auto-height works.</div>
+</body></html>
