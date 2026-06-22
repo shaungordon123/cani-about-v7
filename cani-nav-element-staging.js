@@ -336,4 +336,14 @@ var resources = root.getElementById('caniResources');
 var resTrigger = root.getElementById('caniResTrigger');
 var navEl = root.getElementById('caniNav');
 var burger = root.getElementById('caniBurger');
-if (trigger) trigger.addEventListener('click', function(e){ e.preven
+if (trigger) trigger.addEventListener('click', function(e){ e.preventDefault(); var o=products.classList.toggle('open'); trigger.setAttribute('aria-expanded', o?'true':'false'); });
+if (resTrigger) resTrigger.addEventListener('click', function(e){ e.preventDefault(); var o=resources.classList.toggle('open'); resTrigger.setAttribute('aria-expanded', o?'true':'false'); });
+document.addEventListener('click', function(e){ var p=e.composedPath?e.composedPath():[];
+if(products&&p.indexOf(products)===-1){ products.classList.remove('open'); if(trigger) trigger.setAttribute('aria-expanded','false'); }
+if(resources&&p.indexOf(resources)===-1){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ if(products){ products.classList.remove('open'); if(trigger) trigger.setAttribute('aria-expanded','false'); } if(resources){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } } });
+if (burger) burger.addEventListener('click', function(){ var o=navEl.classList.toggle('mobile-open'); burger.setAttribute('aria-expanded', o?'true':'false'); });
+}
+function defineTag(t){ if(customElements.get(t)) return; customElements.define(t, class extends HTMLElement { connectedCallback(){ build(this); } }); }
+defineTag('cani-nav'); defineTag('wix-default-custom-element');
+})();
