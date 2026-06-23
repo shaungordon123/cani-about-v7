@@ -1317,4 +1317,19 @@ class Component extends DCLogic {
 </script>
 
 
+<script>
+(function(){
+  function ph(){
+    var h = Math.max(
+      document.documentElement.scrollHeight,
+      document.body ? document.body.scrollHeight : 0,
+      document.documentElement.offsetHeight
+    );
+    try { window.parent.postMessage({ caniAboutHeight: h }, '*'); } catch(e){}
+  }
+  window.addEventListener('load', function(){ ph(); setTimeout(ph,300); setTimeout(ph,900); setTimeout(ph,2000); });
+  window.addEventListener('resize', ph);
+  try { if (window.ResizeObserver){ new ResizeObserver(ph).observe(document.documentElement); } } catch(e){}
+})();
+</script>
 </body></html>
