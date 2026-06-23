@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cani — Get in touch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#0E0F16; --pink:#EC1280; --pink2:#ff2f9a; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:auto;overflow:hidden;background:var(--ink);}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    color:#fff;-webkit-font-smoothing:antialiased;
+    display:flex;align-items:center;justify-content:center;padding:34px 40px;
+  }
+  .card{
+    position:relative;width:100%;max-width:1360px;
+    background:linear-gradient(135deg,var(--pink) 0%,var(--pink2) 100%);
+    border-radius:28px;padding:54px 64px;
+    display:flex;align-items:center;justify-content:space-between;gap:40px;
+    box-shadow:0 30px 70px -30px rgba(236,18,128,.55);overflow:hidden;
+  }
+  .left{max-width:620px;flex:1 1 auto;}
+  h2.git{
+    font-family:'Anton',Impact,sans-serif;font-weight:400;
+    font-size:clamp(40px,5.4vw,76px);line-height:.96;letter-spacing:.5px;
+    text-transform:uppercase;margin-bottom:18px;
+  }
+  .body{
+    font-size:clamp(15px,1.25vw,19px);line-height:1.55;
+    color:rgba(255,255,255,.92);max-width:520px;margin-bottom:30px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#0E0F16;color:#fff;text-decoration:none;font-weight:600;font-size:16px;
+    padding:15px 28px;border-radius:999px;transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);background:#1b1d29;}
+  .btn .arr{font-size:18px;line-height:1;transform:translateY(1px)}
+  .reticle{position:relative;flex:0 0 auto;width:300px;height:260px;display:flex;align-items:center;justify-content:center;}
+  .words{display:flex;flex-direction:column;align-items:center;gap:6px;text-transform:uppercase;font-weight:800;letter-spacing:2px;}
+  .words span{font-size:24px;line-height:1.18;color:rgba(255,255,255,.30);}
+  .words span.mid{color:#fff;font-size:30px;text-shadow:0 2px 18px rgba(0,0,0,.18);}
+  .bracket{position:absolute;width:54px;height:54px;border:3px solid rgba(255,255,255,.85);}
+  .bracket.tl{top:84px;left:74px;border-right:none;border-bottom:none;border-radius:6px 0 0 0;}
+  .bracket.tr{top:84px;right:74px;border-left:none;border-bottom:none;border-radius:0 6px 0 0;}
+  .bracket.bl{bottom:84px;left:74px;border-right:none;border-top:none;border-radius:0 0 0 6px;}
+  .bracket.br{bottom:84px;right:74px;border-left:none;border-top:none;border-radius:0 0 6px 0;}
+  @media (max-width:860px){
+    body{padding:24px 18px;}
+    .card{flex-direction:column;align-items:flex-start;padding:40px 32px;gap:28px;}
+    .reticle{width:100%;height:200px;align-self:center;}
+    .body{margin-bottom:24px;}
+  }
+  @media (max-width:560px){ .reticle{display:none;} }
+</style>
+</head>
+<body>
+  <section class="card" aria-label="Get in touch">
+    <div class="left">
+      <h2 class="git">Get in touch</h2>
+      <p class="body">See how Cani can transform the way your business connects &mdash; one partner for every line, device and network.</p>
+      <a class="btn" href="mailto:info@canigroup.co.uk">Get in touch <span class="arr">&rsaquo;</span></a>
+    </div>
+    <div class="reticle" aria-hidden="true">
+      <span class="bracket tl"></span><span class="bracket tr"></span>
+      <span class="bracket bl"></span><span class="bracket br"></span>
+      <div class="words">
+        <span>Save</span><span>Scale</span><span>Advise</span>
+        <span class="mid">Deliver</span>
+        <span>Connect</span><span>Call</span><span>Roam</span>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
