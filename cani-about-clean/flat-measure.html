@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><title>measure</title></head>
+<body style="margin:0;background:#fff">
+<pre id="out" style="font:16px monospace;padding:12px;color:#000">measuring…</pre>
+<div style="position:absolute;left:-99999px;top:0">
+  <iframe id="f1366" src="cani-about-flat.html" style="width:1366px;height:300px;border:0"></iframe>
+  <iframe id="f1024" src="cani-about-flat.html" style="width:1024px;height:300px;border:0"></iframe>
+  <iframe id="f768"  src="cani-about-flat.html" style="width:768px;height:300px;border:0"></iframe>
+  <iframe id="f390"  src="cani-about-flat.html" style="width:390px;height:300px;border:0"></iframe>
+</div>
+<script>
+function measure(){
+  var rows=[['1366',f1366],['1024',f1024],['768',f768],['390',f390]];
+  var s='';
+  rows.forEach(function(r){
+    try{ var d=r[1].contentDocument; var h=Math.max(d.documentElement.scrollHeight, d.body.scrollHeight); s+=r[0]+'px width => '+h+'px\n'; }
+    catch(e){ s+=r[0]+': ERR '+e+'\n'; }
+  });
+  document.getElementById('out').textContent=s;
+  window.__measured=s;
+}
+window.addEventListener('load',function(){ setTimeout(measure,4000); });
+</script>
+</body></html>
