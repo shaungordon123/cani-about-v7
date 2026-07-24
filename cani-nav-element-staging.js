@@ -348,6 +348,27 @@ if(resources&&p.indexOf(resources)===-1){ resources.classList.remove('open'); if
 document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ if(products){ products.classList.remove('open'); if(trigger) trigger.setAttribute('aria-expanded','false'); } if(resources){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } } });
 if (burger) burger.addEventListener('click', function(){ var o=navEl.classList.toggle('mobile-open'); burger.setAttribute('aria-expanded', o?'true':'false'); });
 }
-function defineTag(t){ if(customElements.get(t)) return; customElements.define(t, class extends HTMLElement { connectedCallback(){ build(this); } }); }
+function fitHeaderSection(hostEl){
+  /* SECFIT:header-section-fit-20260724 — shrink the Wix header section (#comp-mqhessxi, ~140px)
+     to the nav's TRUE rendered height (~77px incl. its 1px bottom border), removing the ~63px
+     transparent band beneath the white nav (the dark page root showed through it). The hero moves
+     up naturally by the removed space. Layout-only: does NOT touch the PSTN strip, hero video,
+     poster, service rail, Fibre icon, pause control, mobile fallback, logo or phone number. Runs
+     at every breakpoint (resize). Reversible by reverting this file (rollback baseline 9f6ee43). */
+  window.__caniSecFitRev = 'header-section-fit-20260724';
+  function fit(){
+    var sec = document.getElementById('comp-mqhessxi') || (hostEl && hostEl.closest && hostEl.closest('header'));
+    var host = hostEl || document.querySelector('wix-default-custom-element') || document.querySelector('cani-nav');
+    var nav = host && host.shadowRoot && host.shadowRoot.querySelector('.cani-nav');
+    if(!sec || !nav) return;
+    var h = Math.round(nav.getBoundingClientRect().height);
+    if(h > 0){ sec.style.setProperty('height', h+'px', 'important'); sec.style.setProperty('min-height', h+'px', 'important'); }
+  }
+  fit();
+  var tries = 0;
+  var iv = setInterval(function(){ fit(); if(++tries > 60) clearInterval(iv); }, 150);
+  if(!window.__caniFitResizeBound){ window.__caniFitResizeBound = true; window.addEventListener('resize', fit); }
+}
+function defineTag(t){ if(customElements.get(t)) return; customElements.define(t, class extends HTMLElement { connectedCallback(){ build(this); try{ fitHeaderSection(this); }catch(e){} } }); }
 defineTag('cani-nav'); defineTag('wix-default-custom-element');
 })();
