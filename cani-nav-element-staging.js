@@ -37,7 +37,7 @@ border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 18px 50px -28px rgba(
 display:flex;align-items:center;justify-content:space-between;gap:24px;}
 .cani-nav__left{display:flex;align-items:center;gap:44px;min-width:0;}
 .cani-logo{display:flex;align-items:center;flex:0 0 auto;}
-.cani-logo img{height:24px;width:auto;display:block;}
+.cani-logo img{height:28.8px;width:auto;display:block;} /* LOGO120:+20% (was 24px). width:auto keeps aspect => ~84.46x28.79 (x1.20). Container flex:0 0 auto, no added padding; header stays 77px; logo vertically centred + left-anchored. */
 
 .cani-links{display:flex;align-items:center;gap:4px;}
 .cani-link{font-size:15px;font-weight:600;color:var(--txt-dim);text-decoration:none;
