@@ -27,7 +27,7 @@ var CSS = `:host{
 --txt-dim:rgba(255,255,255,.72);
 --txt-mute:rgba(255,255,255,.46);
 --green:#34D17A; /* trust stars */
---bar-h:79.85px; /* HDR105:+5% header height (2026-07-25, was 76px). Nav row 79.85px + 1px border => nav ~80.84px; SECFIT fits #comp-mqhessxi to that (76.99 -> ~80.84, x1.05). All nav items align-items:center (stay vertically centred); no font/colour/copy/x-position change. */
+--bar-h:79.94px; /* HDR105:+5% header height (2026-07-25, was 76px). Nav row 79.94px + ~0.9px border => nav ~80.84px; SECFIT (no round) fits #comp-mqhessxi to that (76.99 -> 80.84, x1.0500). (79.85 measured 80.75; +0.09 to hit 80.84.) All nav items align-items:center (stay vertically centred); no font/colour/copy/x-position change. */
 }
 /* ---- NAV BAR ---- */
 .cani-nav{position:relative;z-index:20;width:100%;
