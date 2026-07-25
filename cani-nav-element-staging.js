@@ -27,7 +27,7 @@ var CSS = `:host{
 --txt-dim:rgba(255,255,255,.72);
 --txt-mute:rgba(255,255,255,.46);
 --green:#34D17A; /* trust stars */
---bar-h:79.94px; /* HDR105:+5% header height (2026-07-25, was 76px). Nav row 79.94px + ~0.9px border => nav ~80.84px; SECFIT (no round) fits #comp-mqhessxi to that (76.99 -> 80.84, x1.0500). (79.85 measured 80.75; +0.09 to hit 80.84.) All nav items align-items:center (stay vertically centred); no font/colour/copy/x-position change. */
+--bar-h:83.98px; /* HDR110:+5% again (2026-07-25, was 79.94px). Target nav render = 80.84 x 1.05 = 84.88; calibration: rendered = bar-h + ~0.90px border => bar-h = 84.88 - 0.90 = 83.98px. SECFIT (no round) fits #comp-mqhessxi to the nav's exact rendered height. All nav items align-items:center (logo/links/phone/CTA stay vertically centred in the deeper bar). Prior HDR105 note: 79.94 + 0.9 => 80.84 (x1.0500 of 76.99). */
 }
 /* ---- NAV BAR ---- */
 .cani-nav{position:relative;z-index:20;width:100%;
@@ -37,7 +37,7 @@ border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 18px 50px -28px rgba(
 display:flex;align-items:center;justify-content:space-between;gap:24px;}
 .cani-nav__left{display:flex;align-items:center;gap:44px;min-width:0;}
 .cani-logo{display:flex;align-items:center;flex:0 0 auto;}
-.cani-logo img{height:39.6px;width:auto;display:block;} /* LOGO165:+25% (2026-07-25, was 31.68px => 31.68 x 1.25 = 39.6px). Source = authoritative master vector canilogovectormaster-v2.svg (exact 4 paths, tight viewBox 119 341 1522 519, aspect 2.9326); width:auto preserves aspect => ~116.1 x 39.6 (H x1.2500 / W x1.2495, within +/-0.5px). Vertically centred + left-anchored; header depth 80.84px unchanged; adequate clearance before Products. */
+.cani-logo img{height:43.56px;width:auto;display:block;} /* LOGO181:+10% (2026-07-25, was 39.6px => 39.6 x 1.10 = 43.56px; operator-confirmed base = true current 116.09x39.59 => target ~127.7x43.55). Same master vector canilogovectormaster-v2.svg (tight viewBox 119 341 1522 519, aspect 2.9326); width:auto preserves aspect. Vertically centred + left-anchored in the 84.88px bar. Prior LOGO165 note: 31.68 x 1.25 = 39.6 (master-vector swap). */
 
 .cani-links{display:flex;align-items:center;gap:4px;}
 .cani-link{font-size:14px;font-weight:600;color:var(--txt-dim);text-decoration:none; /* NAV-1PX 2026-07-25: 15px -> 14px (desktop labels only) */
