@@ -303,6 +303,10 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 </div>
 
 <div class="cani-right">
+<!-- ORDER-SWAP 2026-07-25: CTA now precedes the phone block (DOM order = visual flex order
+     = keyboard focus order: "Get in touch" first, "Call our team" outside/rightmost).
+     No styling/dimension/spacing change; .cani-right gap:18px unchanged. -->
+<a class="cani-cta" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Get in touch</a>
 <a class="cani-phone" href="tel:+443300580389">
 <span class="cani-phone__ic">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3.6l1.5 4-2.1 1.4a12 12 0 0 0 5.6 5.6l1.4-2.1 4 1.5V20a1.6 1.6 0 0 1-1.7 1.6A16.5 16.5 0 0 1 3.4 5.7 1.6 1.6 0 0 1 5 4z"/></svg>
@@ -312,7 +316,6 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <span class="cani-phone__num">0330 058 0389</span>
 </span>
 </a>
-<a class="cani-cta" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Get in touch</a>
 </div>
 
 <button class="cani-burger" id="caniBurger" aria-label="Menu" aria-expanded="false">
