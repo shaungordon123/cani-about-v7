@@ -40,14 +40,14 @@ display:flex;align-items:center;justify-content:space-between;gap:24px;}
 .cani-logo img{height:39.6px;width:auto;display:block;} /* LOGO165:+25% (2026-07-25, was 31.68px => 31.68 x 1.25 = 39.6px). Source = authoritative master vector canilogovectormaster-v2.svg (exact 4 paths, tight viewBox 119 341 1522 519, aspect 2.9326); width:auto preserves aspect => ~116.1 x 39.6 (H x1.2500 / W x1.2495, within +/-0.5px). Vertically centred + left-anchored; header depth 80.84px unchanged; adequate clearance before Products. */
 
 .cani-links{display:flex;align-items:center;gap:4px;}
-.cani-link{font-size:15px;font-weight:600;color:var(--txt-dim);text-decoration:none;
+.cani-link{font-size:14px;font-weight:600;color:var(--txt-dim);text-decoration:none; /* NAV-1PX 2026-07-25: 15px -> 14px (desktop labels only) */
 padding:6px 10px 5px;border-bottom:2px solid transparent;letter-spacing:.005em;
 transition:color .2s ease,border-color .2s ease;cursor:pointer;}
 .cani-link:hover{color:var(--txt);border-bottom-color:var(--accent);}
 
 /* products trigger */
 .cani-products{position:relative;}
-.cani-trigger{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:15px;
+.cani-trigger{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:14px; /* NAV-1PX 2026-07-25: 15px -> 14px */
 font-weight:600;color:var(--txt-dim);cursor:pointer;background:transparent;border:0;
 padding:6px 10px;border-radius:9px;transition:color .2s ease;}
 .cani-trigger svg{transition:transform .25s ease;color:rgba(255,255,255,.55);}
