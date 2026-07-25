@@ -37,7 +37,7 @@ border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 18px 50px -28px rgba(
 display:flex;align-items:center;justify-content:space-between;gap:24px;}
 .cani-nav__left{display:flex;align-items:center;gap:44px;min-width:0;}
 .cani-logo{display:flex;align-items:center;flex:0 0 auto;}
-.cani-logo img{height:31.68px;width:auto;display:block;} /* LOGO132:+10% (2026-07-25, was 28.8px). 28.8 x 1.10 = 31.68px; width:auto preserves the master-vector aspect => ~92.9x31.67 (x1.10 on the +20% base). Container flex:0 0 auto, no added padding; vertically centred + left-anchored; fits within the taller header, no menu collision. */
+.cani-logo img{height:39.6px;width:auto;display:block;} /* LOGO165:+25% (2026-07-25, was 31.68px => 31.68 x 1.25 = 39.6px). Source = authoritative master vector canilogovectormaster-v2.svg (exact 4 paths, tight viewBox 119 341 1522 519, aspect 2.9326); width:auto preserves aspect => ~116.1 x 39.6 (H x1.2500 / W x1.2495, within +/-0.5px). Vertically centred + left-anchored; header depth 80.84px unchanged; adequate clearance before Products. */
 
 .cani-links{display:flex;align-items:center;gap:4px;}
 .cani-link{font-size:15px;font-weight:600;color:var(--txt-dim);text-decoration:none;
@@ -124,11 +124,24 @@ color:var(--txt-dim);text-decoration:none;transition:background .2s ease,color .
 background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);}
 .cani-phone__lbl{font-size:10px;font-weight:600;letter-spacing:.04em;color:rgba(255,255,255,.42);}
 .cani-phone__num{font-size:15px;font-weight:700;color:#fff;}
-.cani-cta{border:0;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:700;color:#fff;
-background:var(--accent);padding:12px 24px;border-radius:11px;text-decoration:none;display:inline-block;
-box-shadow:0 8px 26px -6px var(--accent-glow);
-transition:transform .26s cubic-bezier(.34,1.56,.64,1),box-shadow .26s ease,background .26s ease;}
-.cani-cta:hover{transform:translateY(-2px);background:var(--accent-hi);box-shadow:0 16px 40px -8px rgba(236,16,128,.85);}
+/* CTA-SQUARED (2026-07-25): squared premium "Get in touch" — 4px radius, #E6007E, 1px charcoal-alpha border, inset top highlight + controlled shadow (NO pill/glow); refined diagonal sheen on hover/focus only (clipped, ~450ms); <=1px lift; pressed active; 2px charcoal focus ring; reduced-motion disables sheen+lift; >=44px tap target. */
+.cani-cta{position:relative;overflow:hidden;box-sizing:border-box;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:700;color:#fff;text-decoration:none;
+display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 24px;
+background:#E6007E;border:1px solid rgba(31,31,31,.16);border-radius:4px;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 6px 16px rgba(31,31,31,.16);
+transition:transform .16s ease,background .16s ease,box-shadow .16s ease;}
+.cani-cta::after{content:"";position:absolute;inset:0;pointer-events:none;
+background:linear-gradient(115deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.45) 50%,rgba(255,255,255,0) 62%);transform:translateX(-100%);}
+.cani-cta:hover,.cani-cta:focus-visible{transform:translateY(-1px);background:#cf0072;}
+.cani-cta:hover::after,.cani-cta:focus-visible::after{animation:caniSheen .45s ease forwards;}
+.cani-cta:active{transform:translateY(0);box-shadow:inset 0 2px 4px rgba(31,31,31,.30),0 2px 8px rgba(31,31,31,.14);}
+.cani-cta:focus-visible{outline:2px solid #1F1F1F;outline-offset:2px;}
+@keyframes caniSheen{to{transform:translateX(100%);}}
+@media (prefers-reduced-motion:reduce){
+  .cani-cta{transition:background .01s ease,box-shadow .01s ease;}
+  .cani-cta:hover,.cani-cta:focus-visible{transform:none;background:#cf0072;}
+  .cani-cta::after,.cani-cta:hover::after,.cani-cta:focus-visible::after{animation:none;transform:translateX(-100%);}
+}
 
 /* ---- MOBILE ---- */
 .cani-burger{display:none;align-items:center;justify-content:center;width:44px;height:44px;border-radius:11px;
@@ -146,9 +159,9 @@ text-transform:uppercase;padding:10px 4px 6px;}
 .cani-mobile .callbtn{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:9px;padding:13px;
 border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
 font-size:15px;font-weight:700;color:#fff;}
-.cani-mobile .ctabtn{margin-top:8px;border:0;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;
-color:#fff;background:var(--accent);padding:14px;border-radius:11px;text-align:center;text-decoration:none;
-box-shadow:0 8px 26px -6px var(--accent-glow);}
+.cani-mobile .ctabtn{margin-top:8px;box-sizing:border-box;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;
+color:#fff;background:#E6007E;padding:14px;min-height:44px;border:1px solid rgba(31,31,31,.16);border-radius:4px;text-align:center;text-decoration:none;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 6px 16px rgba(31,31,31,.16);}
 
 @media (max-width:880px){
 .cani-links,.cani-right{display:none;}
@@ -176,7 +189,7 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <div class="cani-nav__row">
 
 <div class="cani-nav__left">
-<a class="cani-logo" href="https://shaungordon3.wixstudio.com/my-site-4/" target="_top"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNzE3IDkyNiIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDYW5pIENvbW11bmljYXRpb25zIj4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCw5MjYpIHNjYWxlKDAuMSwtMC4xKSIgc3Ryb2tlPSJub25lIj4KPHBhdGggZmlsbD0iIzExMTExNCIgZD0iTTIxNDUgNjc2MyBjLTQ3NiAtMzggLTg1MyAtMTgxIC0xMjMwIC00NjYgLTEwOSAtODMgLTMxMCAtMjgxIC00MDgKLTQwMiAtMzAzIC0zNzYgLTQ2MyAtNzkwIC00OTcgLTEyODUgLTEzIC0xOTAgLTEzIC0yMjYxIDAgLTI0NTAgMzIgLTQ3MCAxNzIKLTg1MiA0NDQgLTEyMTkgOTkgLTEzMiAzNjAgLTM5NCA0ODYgLTQ4OCAzMTYgLTIzMyA2MzAgLTM2NCAxMDMwIC00MzAgOTcgLTE2CjMwNCAtMTcgMjc3MyAtMjAgbDI2NjcgLTMgMCA0NiBjMCA3MiAtMjggMjQ2IC01NiAzNDIgLTMzIDExOSAtMTQwIDMyOCAtMjIxCjQzNyAtMzE3IDQyMyAtODk3IDc1OSAtMTUxNCA4ODAgLTMxMCA2MCAtMjM5IDU4IC0xOTA5IDY1IC0xNjk0IDcgLTE1NzAgMQotMTY5OSA3MCAtNzEgMzggLTExOSA4OCAtMTU3IDE2MSAtNjMgMTI1IC01OCAyOSAtNjIgMTM0NCAtMiA4NjYgMCAxMjE5IDkKMTI2OCAxNSA5MiA3NyAyMTUgMTMyIDI2MiA0OSA0MyAxMjEgODIgMTkyIDEwNCA0NCAxMyAyMzYgMTYgMTU4NSAyMSAxNjcyIDcKMTYxMSA1IDE5MTQgNjYgMzY0IDcyIDY5MCAyMDYgOTkxIDQwNSA0OTEgMzI2IDc1OCA3MzEgNzkxIDEyMDIgbDcgOTcgLTI2MTQKLTIgYy0xNDM4IC0xIC0yNjMyIC0zIC0yNjU0IC01eiIvPgo8cGF0aCBmaWxsPSIjMTExMTE0IiBkPSJNMTA1NTMgNjc1OSBjLTU1NSAtNTAgLTEwMzEgLTI4MSAtMTQzMyAtNjk1IC0zNjMgLTM3MyAtNTY4IC03OTAKLTYzNyAtMTI5NCAtMTcgLTEyNSAtMTggLTIyNyAtMTggLTEzODUgMCAtMTE1OCAxIC0xMjYwIDE4IC0xMzg1IDcyIC01MjkgMjk3Ci05NjcgNjk0IC0xMzUwIDMwNSAtMjk2IDYyMyAtNDc3IDEwMDUgLTU3NCAyOTUgLTc1IDEyOSAtNzAgMjMwNiAtNzMgbDE5NTIKLTQgMCA1OCBjLTEgMjM5IC0xMDUgNTMzIC0yNjUgNzUxIC02NiA5MCAtMjMyIDI2MCAtMzMwIDMzOSAtMzM4IDI3MSAtNzczCjQ2OCAtMTIzMSA1NTcgLTI4OSA1NiAtMzM5IDU5IC0xMTg5IDY2IC02NzQgNiAtNzk4IDkgLTg0MiAyMiAtMTc2IDU0IC0yODAKMTY2IC0zMTkgMzQ2IC0yMCA5OSAtMjAgMjM3NSAwIDI0NzQgMzEgMTQyIDExMyAyNTUgMjI2IDMxMCAxMjcgNjEgNjkgNTkKMTcxNSA1NiBsMTUwMCAtMyA2MiAtMjEgYzE4OSAtNjUgMjg3IC0xOTMgMzEyIC00MDYgNSAtNDYgMTMgLTUxNSAxNiAtMTA0MyA4Ci0xMjIyIDE1IC0xMzgwIDgwIC0xNzAwIDUzIC0yNjEgMTI3IC00ODAgMjQ1IC03MjAgMjQyIC00OTQgNTk5IC04NjEgOTY5Ci05OTUgMTUwIC01NSAzMjMgLTkwIDQ0NCAtOTAgbDM3IDAgMCAyMjgzIGMwIDE1MzEgLTQgMjMyMCAtMTEgMjM5NyAtNTAgNTQwCi0yNzYgMTAxOCAtNjY5IDE0MTAgLTM2NSAzNjYgLTc3MCA1NzIgLTEyOTUgNjU4IC04OSAxNCAtMjY1IDE2IC0xNjc1IDE4Ci04NjYgMSAtMTYxNiAtMiAtMTY2NyAtN3oiLz4KPHBhdGggZmlsbD0iIzExMTExNCIgZD0iTTE5MDE1IDY3NTkgYy01NDEgLTUxIC05ODIgLTI1NiAtMTM3OCAtNjM5IC00NDAgLTQyNSAtNjY2IC05MDkKLTcwNyAtMTUxMCAtNiAtODggLTEwIC0xMDI1IC0xMCAtMjM3OSBsMCAtMjIzNCA5MyA3IGM0ODEgMzYgODY5IDI5MyAxMjAwCjc5NiAyOTQgNDQ4IDQ1MyA5ODMgNDcyIDE1OTUgMyA5NCAxMCA2MTUgMTUgMTE2MCAxMSAxMDczIDEwIDEwNjkgNjcgMTE4NSAzNAo3MCAxMTMgMTQ4IDE4MyAxODEgMTE4IDU2IDQxIDU0IDE2ODUgNTQgMTQ0NyAwIDE1MjMgLTEgMTU4MCAtMTggMTY1IC01MSAyNjQKLTE1MyAzMTEgLTMyMiAxNSAtNTMgMTggLTE2NiAyNSAtMTAxNSAxMiAtMTMxMCAyMCAtMTUwMCA4NCAtMTgxNSA1MyAtMjYyCjEyNyAtNDgwIDI0NSAtNzIwIDE1MSAtMzA3IDM1MyAtNTc3IDU1OSAtNzQ5IDI0NCAtMjA0IDQ5OSAtMzA5IDc5OSAtMzMyIGw5MgotNyAwIDIyODQgYzAgMTUxMiAtNCAyMzIzIC0xMSAyMzk5IC01NCA1OTUgLTMzNiAxMTM1IC04MDIgMTUzNiAtMjgyIDI0MgotNjMzIDQyMiAtOTY5IDQ5NSAtMjU0IDU1IC0xNjUgNTMgLTE4NjggNTUgLTg2NiAxIC0xNjE1IC0yIC0xNjY1IC03eiIvPgo8cGF0aCBmaWxsPSIjRkYwRDdFIiBkPSJNMjY5NDggOTI0NSBjLTIzMCAtMzkgLTQzMyAtMTI0IC02MTMgLTI1NyAtMTYxIC0xMTkgLTQwNyAtMzk1IC01MjUKLTU4OCAtMzIgLTUzIC00NCAtNzUgLTEwNyAtMTkwIC0xMzMgLTI0MiAtMjUxIC02MzQgLTI5MiAtOTcwIC0xNSAtMTE3IC0zMQotNDA5IC0zMSAtNTU4IDAgLTk3IDMgLTEyNCAxNCAtMTI4IDI1IC0xMCAyMzIgMTYgMzI5IDQwIDMzOSA4NiA2NDQgMzEwIDkwMAo2NjEgMjA3IDI4NCAzNDggNTkxIDQzMiA5MzcgNjIgMjYwIDg0IDQ0OCA5MiA3OTYgbDYgMjcyIC02NCAtMSBjLTM1IC0xIC05OQotNyAtMTQxIC0xNHoiLz4KPHBhdGggZmlsbD0iI0ZGMEQ3RSIgZD0iTTI3MDA2IDY3NTkgYy00NDggLTUyIC04NDAgLTMyNyAtMTE2MyAtODE2IC0yMjYgLTM0MSAtMzY4IC03MzAKLTQyOCAtMTE3MyAtMzIgLTIzMyAtMzUgLTQ3MSAtMzUgLTI2MTYgbDAgLTIxNTQgNTggMCBjNjYgMCAxOTEgMjEgMzA3IDUxCjMyOCA4NCA2NDkgMzI5IDkxMiA2OTcgMjQ0IDM0MSA0MTIgNzY5IDQ3MiAxMjAyIDYgNDEgMTYgMTExIDIzIDE1NSA5IDYwIDEzCjY0OCAxNSAyMzczIGw0IDIyOTIgLTQ4IC0xIGMtMjYgLTEgLTc5IC01IC0xMTcgLTEweiIvPgo8L2c+Cjwvc3ZnPg==" alt="Cani"></a>
+<a class="cani-logo" href="https://shaungordon3.wixstudio.com/my-site-4/" target="_top"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjExOSAzNDEgMTUyMiA1MTkiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iQ2FuaSBDb21tdW5pY2F0aW9ucyI+CiAgPHRpdGxlPkNBTkkgd29yZG1hcmsgdmVjdG9yIG1hc3RlcjwvdGl0bGU+CiAgPHBhdGggZmlsbD0iIzE0MTExMSIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNNTM0IDg2MEgyNDlRMTk1IDg2MCAxNTcuMCA4MjIuMFExMTkgNzg0IDExOSA3MzBWNjExUTExOSA1NTcgMTU3LjAgNTE5LjBRMTk1IDQ4MSAyNDkgNDgxSDUzNFE1MzQgNTIyIDQ5My41IDU1MS4wUTQ1MyA1ODAgMzk2IDU4MEwyNDkgNTgxUTIxOSA1ODEgMjE5IDYxMVY3MzBRMjE5IDc2MCAyNDkgNzYwTDM5NiA3NjFRNDUzIDc2MSA0OTMuNSA3OTAuMFE1MzQgODE5IDUzNCA4NjBaIi8+CiAgPHBhdGggZmlsbD0iIzE0MTExMSIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNMTAwOCA4NjBROTY3IDg2MCA5MzguNSA4MTkuNVE5MTAgNzc5IDkwOSA3MjJMOTA4IDYxMVE5MDggNTgxIDg3OCA1ODFINzIzUTY5MyA1ODEgNjkzIDYxMVY3MzBRNjkzIDc2MCA3MjMgNzYwTDc5MCA3NjFRODQ3IDc2MiA4ODcuNSA3OTAuNVE5MjggODE5IDkyOCA4NjBINzIzUTY2OSA4NjAgNjMxLjAgODIyLjBRNTkzIDc4NCA1OTMgNzMwVjYxMVE1OTMgNTU3IDYzMS4wIDUxOS4wUTY2OSA0ODEgNzIzIDQ4MUg4NzhROTMyIDQ4MSA5NzAuMCA1MTkuMFExMDA4IDU1NyAxMDA4IDYxMVoiLz4KICA8cGF0aCBmaWxsPSIjMTQxMTExIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGQ9Ik0xNDgyIDg2MFExNDQxIDg2MCAxNDEyLjUgODE5LjVRMTM4NCA3NzkgMTM4MyA3MjJMMTM4MiA2MTFRMTM4MiA1ODEgMTM1MiA1ODFIMTE5N1ExMTY3IDU4MSAxMTY3IDYxMUwxMTY2IDcyMlExMTY1IDc3OSAxMTM2LjUgODE5LjVRMTEwOCA4NjAgMTA2NyA4NjBWNjExUTEwNjcgNTU3IDExMDUuMCA1MTkuMFExMTQzIDQ4MSAxMTk3IDQ4MUgxMzUyUTE0MDYgNDgxIDE0NDQuMCA1MTkuMFExNDgyIDU1NyAxNDgyIDYxMVoiLz4KICA8cGF0aCBmaWxsPSIjRkYwRDdFIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGQ9Ik0xNjQwIDM1NVExNjQwIDQxMyAxNjExLjAgNDUzLjBRMTU4MiA0OTMgMTU0MSA0OTNWNDc5UTE1NDEgNDIyIDE1NzAuMCAzODEuNVExNTk5IDM0MSAxNjQwIDM0MVpNMTY0MSA3MjJRMTY0MSA3NzkgMTYxMS41IDgxOS41UTE1ODIgODYwIDE1NDEgODYwVjYxOVExNTQxIDU2MiAxNTcwLjUgNTIxLjVRMTYwMCA0ODEgMTY0MSA0ODFaIi8+Cjwvc3ZnPg==" alt="Cani"></a>
 
 <div class="cani-links">
 <div class="cani-products" id="caniProducts">
@@ -299,7 +312,7 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <span class="cani-phone__num">0330 058 0389</span>
 </span>
 </a>
-<a class="cani-cta" href="https://shaungordon3.wixstudio.com/my-site-4/quote" target="_top">Get a quote</a>
+<a class="cani-cta" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Get in touch</a>
 </div>
 
 <button class="cani-burger" id="caniBurger" aria-label="Menu" aria-expanded="false">
@@ -326,7 +339,7 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <a href="#" target="_top">Testimonials</a>
 <a class="strong" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Contact</a>
 <a class="callbtn" href="tel:+443300580389">Call 0330 058 0389</a>
-<a class="ctabtn" href="https://shaungordon3.wixstudio.com/my-site-4/quote" target="_top">Get a quote</a>
+<a class="ctabtn" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Get in touch</a>
 </div>
 </div>
 </nav>`;
