@@ -68,12 +68,12 @@ transition:opacity .22s cubic-bezier(.22,1,.36,1),transform .22s cubic-bezier(.2
 .cani-products:not(.open) .cani-mega{transition-duration:.16s;}
 .cani-mega__inner{background:#FFFEFC;border-bottom:1px solid #E8E8EA;
 box-shadow:0 30px 44px -34px rgba(31,31,31,.25);}
-.cani-mega__wrap{max-width:1280px;margin:0 auto;padding:46px 32px 8px;}
+.cani-mega__wrap{max-width:1280px;margin:0 auto;padding:32px 32px 6px;}
 .cani-mega__grid{display:grid;grid-template-columns:1.35fr .85fr 1fr;gap:60px;}
 .cani-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:#5B6573;
-text-transform:uppercase;margin-bottom:14px;}
+text-transform:uppercase;margin-bottom:10px;}
 .cani-cardgrid{display:block;}
-.cani-card{display:flex;gap:14px;align-items:flex-start;padding:10px 12px;margin:0 -12px;border-radius:10px;
+.cani-card{display:flex;gap:14px;align-items:flex-start;padding:7px 12px;margin:0 -12px;border-radius:10px;
 min-height:44px;box-sizing:border-box;text-decoration:none;transition:background .18s ease;}
 .cani-card:hover{background:rgba(31,31,31,.035);}
 .cani-card:focus-visible{outline:2px solid #E6007E;outline-offset:2px;background:rgba(31,31,31,.035);}
@@ -106,7 +106,7 @@ transition:border-color .18s ease;}
 .cani-feat:hover .cani-feat__cta svg{transform:translateX(3px);}
 
 .cani-mega__foot{display:flex;align-items:center;justify-content:space-between;gap:16px;
-max-width:1280px;margin:26px auto 0;padding:14px 32px;border-top:1px solid #E8E8EA;}
+max-width:1280px;margin:14px auto 0;padding:11px 32px;border-top:1px solid #E8E8EA;}
 .cani-trust{font-size:12.5px;font-weight:600;color:#5B6573;}
 .cani-viewall{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:13.5px;font-weight:700;
 color:#E6007E;text-decoration:none;}
