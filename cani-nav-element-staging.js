@@ -155,9 +155,9 @@ box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 6px 16px rgba(31,31,31,.16);
 transition:transform .16s ease,background .16s ease,box-shadow .16s ease;}
 .cani-cta::after{content:"";position:absolute;inset:0;pointer-events:none;
 background:linear-gradient(115deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.45) 50%,rgba(255,255,255,0) 62%);transform:translateX(-100%);}
-.cani-cta:hover,.cani-cta:focus-visible{transform:translateY(-1px);background:#cf0072;}
+.cani-cta:hover,.cani-cta:focus-visible{transform:none;background:#cf0072;} /* CTA-VERIFY 2026-07-26: lift removed — hover must not move/resize/shift (colour deepen from exact #E6007E + clipped sheen only) */
 .cani-cta:hover::after,.cani-cta:focus-visible::after{animation:caniSheen .45s ease forwards;}
-.cani-cta:active{transform:translateY(0);box-shadow:inset 0 2px 4px rgba(31,31,31,.30),0 2px 8px rgba(31,31,31,.14);}
+.cani-cta:active{transform:none;box-shadow:inset 0 2px 4px rgba(31,31,31,.30),0 2px 8px rgba(31,31,31,.14);}
 .cani-cta:focus-visible{outline:2px solid #1F1F1F;outline-offset:2px;}
 @keyframes caniSheen{to{transform:translateX(100%);}}
 @media (prefers-reduced-motion:reduce){
