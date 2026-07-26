@@ -64,8 +64,8 @@ transform:rotate(180deg);color:var(--accent);}
 .cani-mega{position:absolute;top:100%;left:0;width:100%;z-index:40;
 opacity:0;visibility:hidden;transform:translateY(-7px);pointer-events:none;
 transition:opacity .22s cubic-bezier(.22,1,.36,1),transform .22s cubic-bezier(.22,1,.36,1),visibility .22s;}
-.cani-products.open .cani-mega{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;transition-duration:.22s;}
-.cani-products:not(.open) .cani-mega{transition-duration:.16s;}
+.cani-products.open .cani-mega,.cani-resources.open .cani-mega{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;transition-duration:.22s;}
+.cani-products:not(.open) .cani-mega,.cani-resources:not(.open) .cani-mega{transition-duration:.16s;}
 .cani-mega__inner{background:#FFFEFC;border-bottom:1px solid #E8E8EA;
 box-shadow:0 30px 44px -34px rgba(31,31,31,.25);}
 .cani-mega__wrap{max-width:1280px;margin:0 auto;padding:32px 32px 6px;}
@@ -91,6 +91,9 @@ border-radius:8px;font-size:17px;font-weight:600;color:#1F1F1F;text-decoration:n
 transition:background .18s ease,color .18s ease;}
 .cani-explore a:hover{background:rgba(31,31,31,.035);color:#000000;}
 .cani-explore a:focus-visible{outline:2px solid #E6007E;outline-offset:2px;}
+.cani-explore .nolink{display:flex;align-items:center;min-height:44px;box-sizing:border-box;padding:0 12px;margin:0 -12px;
+border-radius:8px;font-size:17px;font-weight:600;color:#1F1F1F;cursor:default;transition:background .18s ease;}
+.cani-explore .nolink:hover{background:rgba(31,31,31,.035);}
 
 /* featured — refined light card */
 .cani-feat{display:block;text-decoration:none;border-radius:14px;padding:26px 24px;
@@ -121,27 +124,20 @@ color:#E6007E;text-decoration:none;}
 }
 @media (prefers-reduced-motion:reduce){
   .cani-mega{transform:none;transition:opacity .08s linear,visibility .08s;}
-  .cani-products.open .cani-mega{transform:none;}
+  .cani-products.open .cani-mega,.cani-resources.open .cani-mega{transform:none;}
   .cani-feat__cta svg,.cani-viewall svg{transition:none;}
   .cani-feat:hover .cani-feat__cta svg,.cani-viewall:hover svg{transform:none;}
 }
 
-/* ---- RESOURCES DROPDOWN (added 2026-06-18; mirrors Products caret/behaviour) ---- */
-.cani-resources{position:relative;}
+/* ---- RESOURCES DROPDOWN — MEGA-LIGHT consistency pass (2026-07-26): shares the
+   Products .cani-mega shell (full-width light panel, same wrap/typography/motion);
+   the legacy dark narrow .cani-ddmenu card is removed. Link-only variant: three
+   equal .cani-explore columns, no featured card (no verified page/asset to feature). */
+.cani-resources{position:static;}
 .cani-resources:hover .cani-trigger,.cani-resources.open .cani-trigger{color:var(--txt);}
 .cani-resources:hover .cani-trigger svg,.cani-resources.open .cani-trigger svg{
 transform:rotate(180deg);color:var(--accent);}
-.cani-ddmenu{position:absolute;top:100%;left:0;padding-top:14px;min-width:240px;z-index:40;
-opacity:0;visibility:hidden;transform:translateY(8px) scale(.985);pointer-events:none;
-transform-origin:top left;transition:opacity .2s ease,transform .2s ease,visibility .2s;}
-.cani-resources:hover .cani-ddmenu,.cani-resources.open .cani-ddmenu{
-opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto;}
-.cani-ddmenu__inner{background:rgba(17,7,12,.97);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);
-border:1px solid rgba(236,16,128,.22);border-radius:14px;overflow:hidden;padding:8px;
-box-shadow:0 40px 90px -30px rgba(0,0,0,.9), inset 0 0 0 1px rgba(255,255,255,.03);}
-.cani-ddmenu a{display:block;padding:11px 14px;border-radius:10px;font-size:14.5px;font-weight:600;
-color:var(--txt-dim);text-decoration:none;transition:background .2s ease,color .2s ease;}
-.cani-ddmenu a:hover{background:rgba(255,255,255,.05);color:var(--txt);}
+.cani-mega__grid--links{grid-template-columns:1fr 1fr 1fr;}
 
 /* ---- RIGHT SIDE ---- */
 .cani-right{display:flex;align-items:center;gap:18px;flex:0 0 auto;}
@@ -341,17 +337,35 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <a class="cani-link" href="https://shaungordon3.wixstudio.com/my-site-4/support" target="_top">Support</a>
 
 <div class="cani-resources" id="caniResources">
-<button class="cani-trigger" id="caniResTrigger" aria-expanded="false" aria-haspopup="true">
+<button class="cani-trigger" id="caniResTrigger" aria-expanded="false" aria-haspopup="true" aria-controls="caniResMega">
 <span>Resources</span>
 <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<div class="cani-ddmenu">
-<div class="cani-ddmenu__inner">
+
+<div class="cani-mega" id="caniResMega" aria-label="Resources menu">
+<div class="cani-mega__inner">
+<div class="cani-mega__wrap">
+<div class="cani-mega__grid cani-mega__grid--links">
+
+<div class="cani-explore">
+<div class="cani-eyebrow">Help &amp; Support</div>
 <a href="https://shaungordon3.wixstudio.com/my-site-4/help" target="_top">Help &amp; FAQs</a>
 <a href="https://shaungordon3.wixstudio.com/my-site-4/device-guides" target="_top">Device Guides</a>
-<a href="#" target="_top">Industries</a>
-<a href="#" target="_top">Telecoms Review</a>
-<a href="#" target="_top">Testimonials</a>
+</div>
+
+<div class="cani-explore">
+<div class="cani-eyebrow">Insights</div>
+<span class="nolink">Telecoms Review</span>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/testimonials" target="_top">Testimonials</a>
+</div>
+
+<div class="cani-explore">
+<div class="cani-eyebrow">Explore</div>
+<span class="nolink">Industries</span>
+</div>
+
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -402,12 +416,19 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <div class="hr"></div>
 <a class="strong" href="/about" target="_top">About</a>
 <a class="strong" href="https://shaungordon3.wixstudio.com/my-site-4/support" target="_top">Support</a>
-<div class="eyebrow">Resources</div>
+<div class="cani-macc" id="caniRacc">
+<button class="cani-macc__btn" id="caniRaccBtn" aria-expanded="false" aria-controls="caniRaccList">
+<span>Resources</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<div class="cani-macc__list" id="caniRaccList">
 <a href="https://shaungordon3.wixstudio.com/my-site-4/help" target="_top">Help &amp; FAQs</a>
 <a href="https://shaungordon3.wixstudio.com/my-site-4/device-guides" target="_top">Device Guides</a>
-<a href="#" target="_top">Industries</a>
-<a href="#" target="_top">Telecoms Review</a>
-<a href="#" target="_top">Testimonials</a>
+<span class="nolink">Telecoms Review</span>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/testimonials" target="_top">Testimonials</a>
+<span class="nolink">Industries</span>
+</div>
+</div>
 <a class="strong" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Contact</a>
 <a class="callbtn" href="tel:+443300580389">Call 0330 058 0389</a>
 <a class="ctabtn" href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Get in touch</a>
@@ -417,37 +438,47 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 function build(host){
 if (host._init) return; host._init = true;
 var root = host.attachShadow({mode:'open'});
-root.innerHTML = '<style>'+CSS+'/* === WHITE HEADER THEME · CANIREV:white-header-staging-20260724 · colours/bg/border/logo only === */.cani-nav{--cani-rev:"white-header-staging-20260724" !important;background:#FFFFFF !important;border-bottom:1px solid #E8E8EA !important;box-shadow:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;}.cani-link{color:#1F1F1F !important;}.cani-trigger{color:#1F1F1F !important;}.cani-trigger svg{color:#1F1F1F !important;}.cani-eyebrow{color:#5B6573 !important;}.cani-phone{color:#1F1F1F !important;}.cani-phone__num{color:#1F1F1F !important;}.cani-phone__lbl{color:#5B6573 !important;}.cani-phone__ic{background:rgba(236,16,128,.10) !important;border-color:rgba(236,16,128,.30) !important;}.cani-burger{border-color:rgba(31,31,31,.22) !important;background:rgba(31,31,31,.05) !important;}.cani-cta,.cani-cta *{color:#FFFFFF !important;}/* MEGA-LIGHT colour lockdown (the legacy dark-theme catch-alls come later in CSS order) */.cani-mega .cani-card__t{color:#1F1F1F !important;}.cani-mega .cani-card:hover .cani-card__t{color:#000000 !important;}.cani-mega .cani-card__d{color:#5B6573 !important;}.cani-mega .cani-card__icon{color:#1F1F1F !important;}.cani-mega .cani-card:hover .cani-card__icon{color:#E6007E !important;}.cani-mega .cani-explore a{color:#1F1F1F !important;}.cani-mega .cani-explore a:hover{color:#000000 !important;}.cani-mega .cani-eyebrow{color:#5B6573 !important;}.cani-mega .cani-feat__tag{color:#E6007E !important;}.cani-mega .cani-feat__h{color:#1F1F1F !important;}.cani-mega .cani-feat__p{color:#5B6573 !important;}.cani-mega .cani-feat__cta{color:#E6007E !important;}.cani-mega .cani-trust{color:#5B6573 !important;}.cani-mega .cani-viewall{color:#E6007E !important;}</style>'+MARKUP;
+root.innerHTML = '<style>'+CSS+'/* === WHITE HEADER THEME · CANIREV:white-header-staging-20260724 · colours/bg/border/logo only === */.cani-nav{--cani-rev:"white-header-staging-20260724" !important;background:#FFFFFF !important;border-bottom:1px solid #E8E8EA !important;box-shadow:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;}.cani-link{color:#1F1F1F !important;}.cani-trigger{color:#1F1F1F !important;}.cani-trigger svg{color:#1F1F1F !important;}.cani-eyebrow{color:#5B6573 !important;}.cani-phone{color:#1F1F1F !important;}.cani-phone__num{color:#1F1F1F !important;}.cani-phone__lbl{color:#5B6573 !important;}.cani-phone__ic{background:rgba(236,16,128,.10) !important;border-color:rgba(236,16,128,.30) !important;}.cani-burger{border-color:rgba(31,31,31,.22) !important;background:rgba(31,31,31,.05) !important;}.cani-cta,.cani-cta *{color:#FFFFFF !important;}/* MEGA-LIGHT colour lockdown (the legacy dark-theme catch-alls come later in CSS order) */.cani-mega .cani-card__t{color:#1F1F1F !important;}.cani-mega .cani-card:hover .cani-card__t{color:#000000 !important;}.cani-mega .cani-card__d{color:#5B6573 !important;}.cani-mega .cani-card__icon{color:#1F1F1F !important;}.cani-mega .cani-card:hover .cani-card__icon{color:#E6007E !important;}.cani-mega .cani-explore a{color:#1F1F1F !important;}.cani-mega .cani-explore a:hover{color:#000000 !important;}.cani-mega .cani-explore .nolink{color:#1F1F1F !important;}.cani-mega .cani-eyebrow{color:#5B6573 !important;}.cani-mega .cani-feat__tag{color:#E6007E !important;}.cani-mega .cani-feat__h{color:#1F1F1F !important;}.cani-mega .cani-feat__p{color:#5B6573 !important;}.cani-mega .cani-feat__cta{color:#E6007E !important;}.cani-mega .cani-trust{color:#5B6573 !important;}.cani-mega .cani-viewall{color:#E6007E !important;}</style>'+MARKUP;
 var products = root.getElementById('caniProducts');
 var trigger = root.getElementById('caniTrigger');
 var resources = root.getElementById('caniResources');
 var resTrigger = root.getElementById('caniResTrigger');
 var navEl = root.getElementById('caniNav');
 var burger = root.getElementById('caniBurger');
-/* MEGA-LIGHT behaviour: real button + aria-expanded/controls, hover-intent
-   (70ms open / 240ms close so trigger->panel pointer travel never flickers),
-   Escape closes AND returns focus to Products, focus leaving the group closes
-   (no focus trap - it is navigation, not a modal), outside click closes. */
-function setMegaOpen(o){ if(!products) return; products.classList.toggle('open', !!o); if(trigger) trigger.setAttribute('aria-expanded', o?'true':'false'); }
-var megaHoverT=null, megaCloseT=null;
+/* MEGA-LIGHT behaviour, shared by Products AND Resources (consistency pass
+   2026-07-26): real buttons + aria-expanded/controls, hover-intent (70ms open /
+   240ms close so trigger->panel pointer travel never flickers), Escape closes
+   AND returns focus to the open group's trigger, focus leaving a group closes it
+   (no focus trap - it is navigation, not a modal), outside click closes, and
+   opening one mega closes the other. */
 var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
-if (trigger) trigger.addEventListener('click', function(e){ e.preventDefault(); setMegaOpen(!products.classList.contains('open')); });
-if (canHover && products){
-  products.addEventListener('pointerenter', function(){ clearTimeout(megaCloseT); megaHoverT=setTimeout(function(){ setMegaOpen(true); }, 70); });
-  products.addEventListener('pointerleave', function(){ clearTimeout(megaHoverT); megaCloseT=setTimeout(function(){ setMegaOpen(false); }, 240); });
+var megaGroups = [];
+function setOpen(g, o){
+  g.el.classList.toggle('open', !!o);
+  g.trig.setAttribute('aria-expanded', o?'true':'false');
+  if(o) megaGroups.forEach(function(x){ if(x!==g) setOpen(x, false); });
 }
-if (products) products.addEventListener('focusout', function(e){ if(!products.contains(e.relatedTarget)) setMegaOpen(false); });
-if (resTrigger) resTrigger.addEventListener('click', function(e){ e.preventDefault(); var o=resources.classList.toggle('open'); resTrigger.setAttribute('aria-expanded', o?'true':'false'); });
+[[products, trigger], [resources, resTrigger]].forEach(function(pair){
+  var el = pair[0], trig = pair[1];
+  if(!el || !trig) return;
+  var g = { el: el, trig: trig, hoverT: null, closeT: null };
+  megaGroups.push(g);
+  trig.addEventListener('click', function(e){ e.preventDefault(); setOpen(g, !el.classList.contains('open')); });
+  if (canHover){
+    el.addEventListener('pointerenter', function(){ clearTimeout(g.closeT); g.hoverT=setTimeout(function(){ setOpen(g, true); }, 70); });
+    el.addEventListener('pointerleave', function(){ clearTimeout(g.hoverT); g.closeT=setTimeout(function(){ setOpen(g, false); }, 240); });
+  }
+  el.addEventListener('focusout', function(e){ if(!el.contains(e.relatedTarget)) setOpen(g, false); });
+});
 document.addEventListener('click', function(e){ var p=e.composedPath?e.composedPath():[];
-if(products&&p.indexOf(products)===-1){ setMegaOpen(false); }
-if(resources&&p.indexOf(resources)===-1){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } });
+megaGroups.forEach(function(g){ if(p.indexOf(g.el)===-1) setOpen(g, false); }); });
 document.addEventListener('keydown', function(e){ if(e.key==='Escape'){
-if(products&&products.classList.contains('open')){ setMegaOpen(false); if(trigger) trigger.focus(); }
-if(resources){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } } });
+megaGroups.forEach(function(g){ if(g.el.classList.contains('open')){ setOpen(g, false); g.trig.focus(); } }); } });
 if (burger) burger.addEventListener('click', function(){ var o=navEl.classList.toggle('mobile-open'); burger.setAttribute('aria-expanded', o?'true':'false'); });
-var maccBtn = root.getElementById('caniMaccBtn');
-var macc = root.getElementById('caniMacc');
-if (maccBtn && macc) maccBtn.addEventListener('click', function(){ var o=macc.classList.toggle('open'); maccBtn.setAttribute('aria-expanded', o?'true':'false'); });
+[['caniMaccBtn','caniMacc'],['caniRaccBtn','caniRacc']].forEach(function(ids){
+  var btn = root.getElementById(ids[0]), acc = root.getElementById(ids[1]);
+  if (btn && acc) btn.addEventListener('click', function(){ var o=acc.classList.toggle('open'); btn.setAttribute('aria-expanded', o?'true':'false'); });
+});
 }
 function fitHeaderSection(hostEl){
   /* SECFIT:header-section-fit-20260724 — shrink the Wix header section (#comp-mqhessxi, ~140px)
