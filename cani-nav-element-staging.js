@@ -55,49 +55,76 @@ padding:6px 10px;border-radius:9px;transition:color .2s ease;}
 .cani-products:hover .cani-trigger svg,.cani-products.open .cani-trigger svg{
 transform:rotate(180deg);color:var(--accent);}
 
-/* ---- MEGA PANEL ---- */
-.cani-mega{position:absolute;top:100%;left:0;padding-top:14px;width:760px;z-index:40;
-opacity:0;visibility:hidden;transform:translateY(8px) scale(.985);pointer-events:none;
-transform-origin:top left;transition:opacity .2s ease,transform .2s ease,visibility .2s;}
-.cani-products:hover .cani-mega,.cani-products.open .cani-mega{
-opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto;}
-.cani-mega__inner{background:rgba(17,7,12,.97);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);
-border:1px solid rgba(236,16,128,.22);border-radius:18px;overflow:hidden;
-box-shadow:0 40px 90px -30px rgba(0,0,0,.9), inset 0 0 0 1px rgba(255,255,255,.03);}
-.cani-mega__grid{display:grid;grid-template-columns:1fr 300px;}
-.cani-mega__cards{padding:22px 22px 20px;}
-.cani-eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.38);
+/* ---- MEGA PANEL · MEGA-LIGHT 2026-07-26 ----
+   Full-width luminous panel directly beneath the white bar. Content constrained
+   to the header's 1280px grid. No floating rounded box, no saturated magenta
+   surface. JS-driven .open only (hover-intent lives in JS); premium ease;
+   reduced-motion collapses to a short fade. Rollback = commit 24cb56e. */
+.cani-products{position:static;}
+.cani-mega{position:absolute;top:100%;left:0;width:100%;z-index:40;
+opacity:0;visibility:hidden;transform:translateY(-7px);pointer-events:none;
+transition:opacity .22s cubic-bezier(.22,1,.36,1),transform .22s cubic-bezier(.22,1,.36,1),visibility .22s;}
+.cani-products.open .cani-mega{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;transition-duration:.22s;}
+.cani-products:not(.open) .cani-mega{transition-duration:.16s;}
+.cani-mega__inner{background:#FFFEFC;border-bottom:1px solid #E8E8EA;
+box-shadow:0 30px 44px -34px rgba(31,31,31,.25);}
+.cani-mega__wrap{max-width:1280px;margin:0 auto;padding:46px 32px 8px;}
+.cani-mega__grid{display:grid;grid-template-columns:1.35fr .85fr 1fr;gap:60px;}
+.cani-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:#5B6573;
 text-transform:uppercase;margin-bottom:14px;}
-.cani-cardgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.cani-card{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;
-text-decoration:none;border:1px solid transparent;background:transparent;
-transition:background .2s ease,border-color .2s ease;}
-.cani-card:hover{background:rgba(255,255,255,.05);border-color:rgba(236,16,128,.45);}
-.cani-card__icon{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:42px;height:42px;
-border-radius:11px;background:rgba(236,16,128,.13);border:1px solid rgba(236,16,128,.22);}
-.cani-card__t{display:block;font-size:14.5px;font-weight:700;color:var(--txt);line-height:1.2;}
-.cani-card__d{display:block;margin-top:3px;font-size:12px;font-weight:500;color:var(--txt-mute);line-height:1.4;}
+.cani-cardgrid{display:block;}
+.cani-card{display:flex;gap:14px;align-items:flex-start;padding:10px 12px;margin:0 -12px;border-radius:10px;
+min-height:44px;box-sizing:border-box;text-decoration:none;transition:background .18s ease;}
+.cani-card:hover{background:rgba(31,31,31,.035);}
+.cani-card:focus-visible{outline:2px solid #E6007E;outline-offset:2px;background:rgba(31,31,31,.035);}
+.cani-card.nolink{cursor:default;}
+.cani-card__icon{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:26px;height:26px;
+margin-top:2px;color:#1F1F1F;transition:color .18s ease;}
+.cani-card:hover .cani-card__icon{color:#E6007E;}
+.cani-card__t{display:block;font-size:18px;font-weight:600;color:#1F1F1F;line-height:1.25;letter-spacing:-.01em;transition:color .18s ease;}
+.cani-card:hover .cani-card__t{color:#000000;}
+.cani-card__d{display:block;margin-top:3px;font-size:13px;font-weight:500;color:#5B6573;line-height:1.5;}
 
-/* featured */
-.cani-feat{display:block;text-decoration:none;margin:14px 14px 14px 0;border-radius:14px;padding:20px;
-position:relative;overflow:hidden;
-background:linear-gradient(155deg, rgba(236,16,128,.92) 0%, var(--accent2) 100%);
-box-shadow:0 18px 40px -18px rgba(236,16,128,.6);}
-.cani-feat .deco{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.24);}
-.cani-feat .deco.a{right:-30px;top:-30px;width:130px;height:130px;}
-.cani-feat .deco.b{right:-8px;top:-8px;width:86px;height:86px;}
-.cani-feat__tag{position:relative;display:inline-flex;align-items:center;gap:6px;padding:4px 9px;
-border-radius:999px;background:rgba(0,0,0,.22);font-size:9.5px;font-weight:800;letter-spacing:.12em;color:#fff;}
-.cani-feat__h{position:relative;margin-top:46px;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#fff;}
-.cani-feat__p{position:relative;margin-top:7px;font-size:12.5px;font-weight:500;line-height:1.5;color:rgba(255,255,255,.86);}
-.cani-feat__cta{position:relative;margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#fff;}
+/* explore column */
+.cani-explore a{display:flex;align-items:center;min-height:44px;box-sizing:border-box;padding:0 12px;margin:0 -12px;
+border-radius:8px;font-size:17px;font-weight:600;color:#1F1F1F;text-decoration:none;
+transition:background .18s ease,color .18s ease;}
+.cani-explore a:hover{background:rgba(31,31,31,.035);color:#000000;}
+.cani-explore a:focus-visible{outline:2px solid #E6007E;outline-offset:2px;}
+
+/* featured — refined light card */
+.cani-feat{display:block;text-decoration:none;border-radius:14px;padding:26px 24px;
+background:linear-gradient(165deg,#FBF6F8 0%,#F7F7F7 100%);border:1px solid #F0E6EB;
+transition:border-color .18s ease;}
+.cani-feat:hover{border-color:rgba(230,0,126,.35);}
+.cani-feat:focus-visible{outline:2px solid #E6007E;outline-offset:2px;}
+.cani-feat__tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;color:#E6007E;text-transform:uppercase;}
+.cani-feat__h{display:block;margin-top:12px;font-size:21px;font-weight:700;letter-spacing:-.01em;color:#1F1F1F;}
+.cani-feat__p{display:block;margin-top:8px;font-size:13.5px;font-weight:500;line-height:1.55;color:#5B6573;}
+.cani-feat__cta{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-size:13.5px;font-weight:700;color:#E6007E;}
+.cani-feat__cta svg{transition:transform .18s cubic-bezier(.22,1,.36,1);}
+.cani-feat:hover .cani-feat__cta svg{transform:translateX(3px);}
 
 .cani-mega__foot{display:flex;align-items:center;justify-content:space-between;gap:16px;
-padding:13px 22px;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.18);}
-.cani-trust{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);}
-.cani-trust .stars{letter-spacing:1px;color:var(--green);font-size:12px;}
-.cani-viewall{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
-color:var(--accent);text-decoration:none;}
+max-width:1280px;margin:26px auto 0;padding:14px 32px;border-top:1px solid #E8E8EA;}
+.cani-trust{font-size:12.5px;font-weight:600;color:#5B6573;}
+.cani-viewall{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:13.5px;font-weight:700;
+color:#E6007E;text-decoration:none;}
+.cani-viewall svg{transition:transform .18s cubic-bezier(.22,1,.36,1);}
+.cani-viewall:hover svg{transform:translateX(3px);}
+.cani-viewall:focus-visible{outline:2px solid #E6007E;outline-offset:2px;}
+
+/* tablet: two content columns, featured spans full width beneath */
+@media (max-width:1100px){
+  .cani-mega__grid{grid-template-columns:1fr 1fr;gap:36px;}
+  .cani-mega__grid > div:last-child{grid-column:1 / -1;}
+}
+@media (prefers-reduced-motion:reduce){
+  .cani-mega{transform:none;transition:opacity .08s linear,visibility .08s;}
+  .cani-products.open .cani-mega{transform:none;}
+  .cani-feat__cta svg,.cani-viewall svg{transition:none;}
+  .cani-feat:hover .cani-feat__cta svg,.cani-viewall:hover svg{transform:none;}
+}
 
 /* ---- RESOURCES DROPDOWN (added 2026-06-18; mirrors Products caret/behaviour) ---- */
 .cani-resources{position:relative;}
@@ -168,6 +195,22 @@ box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 6px 16px rgba(31,31,31,.16);}
 .cani-burger{display:flex;}
 }
 
+/* mobile Products accordion (MEGA-LIGHT 2026-07-26) */
+.cani-macc{width:100%;}
+.cani-macc__btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;
+padding:11px 4px;font-family:inherit;font-size:15px;font-weight:600;color:rgba(255,255,255,.82);
+background:transparent;border:0;cursor:pointer;text-align:left;}
+.cani-macc__btn svg{transition:transform .2s ease;color:rgba(255,255,255,.55);}
+.cani-macc.open .cani-macc__btn svg{transform:rotate(180deg);color:#E6007E;}
+.cani-macc__list{display:none;border-left:2px solid rgba(230,0,126,.55);margin:2px 0 8px 6px;padding-left:12px;}
+.cani-macc.open .cani-macc__list{display:block;}
+.cani-macc__list a{display:block;min-height:44px;box-sizing:border-box;padding:11px 4px;font-size:15px;font-weight:600;
+color:rgba(255,255,255,.82);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);}
+.cani-macc__list a:last-child{border-bottom:0;}
+.cani-macc__list .nolink{display:block;min-height:44px;box-sizing:border-box;padding:11px 4px;font-size:15px;font-weight:600;
+color:rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.08);}
+@media (prefers-reduced-motion:reduce){ .cani-macc__btn svg{transition:none;} }
+
 :host{display:block;font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;
 /* Make the element report a definite bar height so the Wix container hugs the nav
 (instead of falling back to its 150px default) on tablet/mobile. overflow:visible
@@ -193,85 +236,100 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 
 <div class="cani-links">
 <div class="cani-products" id="caniProducts">
-<button class="cani-trigger" id="caniTrigger" aria-expanded="false" aria-haspopup="true">
+<button class="cani-trigger" id="caniTrigger" aria-expanded="false" aria-haspopup="true" aria-controls="caniMega">
 <span>Products</span>
 <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
 
-<div class="cani-mega">
+<div class="cani-mega" id="caniMega" aria-label="Products menu">
 <div class="cani-mega__inner">
+<div class="cani-mega__wrap">
 <div class="cani-mega__grid">
+
 <div class="cani-mega__cards">
-<div class="cani-eyebrow">Products &amp; services</div>
+<div class="cani-eyebrow">Products</div>
 <div class="cani-cardgrid">
 
-<a class="cani-card" href="#" target="_top">
+<span class="cani-card nolink">
 <span class="cani-card__icon">
-<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M11 18.5h2"/><path d="M20 7.5a6 6 0 0 1 0 9" opacity=".75"/><path d="M22 5a9 9 0 0 1 0 14" opacity=".45"/></svg>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 15.3l1.5-3.9A2 2 0 0 1 6.6 10h4.8a2 2 0 0 1 1.9 1.4l1.5 3.9"/><rect x="2.6" y="15.3" width="13.2" height="3.4" rx="1.1"/><path d="M5.7 18.7v1.1M12.9 18.7v1.1"/><path d="M18.6 3a2.7 2.7 0 0 0-2.7 2.7c0 1.8 2.7 4.6 2.7 4.6s2.7-2.8 2.7-4.6A2.7 2.7 0 0 0 18.6 3z"/><circle cx="18.6" cy="5.6" r=".9"/></svg>
 </span>
 <span>
-<span class="cani-card__t">Business Mobiles</span>
-<span class="cani-card__d">Every UK network, SIMs &amp; devices in one place.</span>
+<span class="cani-card__t">Vehicle Tracking</span>
+<span class="cani-card__d">Track vehicles and assets in real time.</span>
+</span>
+</span>
+
+<a class="cani-card" href="https://shaungordon3.wixstudio.com/my-site-4/hosted-telephony" target="_top">
+<span class="cani-card__icon">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="3" width="11" height="18" rx="2.2"/><path d="M13.5 6.5h4M14 17.5h.01M17 17.5h.01M14 14.5h.01M17 14.5h.01"/><path d="M6.5 4.5c-1.4.4-2 1.6-2 3.2v8.6c0 1.6.6 2.8 2 3.2"/></svg>
+</span>
+<span>
+<span class="cani-card__t">Hosted Telephony</span>
+<span class="cani-card__d">Cloud phone systems for modern teams.</span>
 </span>
 </a>
 
-<a class="cani-card" href="#" target="_top">
+<a class="cani-card" href="https://shaungordon3.wixstudio.com/my-site-4/hosted-telephony#soft-phone" target="_top">
 <span class="cani-card__icon">
-<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M10.2 9.2c.9 1.9 2.5 3.5 4.4 4.4l.9-1a.9.9 0 0 1 1-.2l1.7.7v2a1 1 0 0 1-1 1 9.6 9.6 0 0 1-9-9 1 1 0 0 1 1-1h2l.7 1.7a.9.9 0 0 1-.2 1z"/></svg>
 </span>
 <span>
-<span class="cani-card__t">Business Broadband &amp; Fibre</span>
-<span class="cani-card__d">Ultrafast fibre, FTTP &amp; business broadband.</span>
+<span class="cani-card__t">Soft Phone</span>
+<span class="cani-card__d">Business calls on any device, anywhere.</span>
 </span>
 </a>
 
-<a class="cani-card" href="#" target="_top">
+<a class="cani-card" href="https://shaungordon3.wixstudio.com/my-site-4/broadband-connectivity" target="_top">
 <span class="cani-card__icon">
-<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M11 18.5h2"/></svg>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5a12.5 12.5 0 0 1 17 0"/><path d="M6.5 13a8.3 8.3 0 0 1 11 0"/><path d="M9.5 16.4a4.2 4.2 0 0 1 5 0"/><circle cx="12" cy="19.4" r="1.1"/></svg>
 </span>
 <span>
-<span class="cani-card__t">SIM Only</span>
-<span class="cani-card__d">Flexible SIM-only plans on every major network.</span>
+<span class="cani-card__t">Connectivity</span>
+<span class="cani-card__d">Business broadband, fibre and lines.</span>
 </span>
 </a>
 
-<a class="cani-card" href="#" target="_top">
+<a class="cani-card" href="https://shaungordon3.wixstudio.com/my-site-4/free-bill-review" target="_top">
 <span class="cani-card__icon">
-<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M10.5 17.5h3"/><path d="M10.5 8.5v3M12.5 6.5v5M14.5 9.5v2"/></svg>
 </span>
 <span>
-<span class="cani-card__t">Lease Lines</span>
-<span class="cani-card__d">Dedicated high-capacity leased line connectivity.</span>
-</span>
-</a>
-
-<a class="cani-card" href="#" target="_top">
-<span class="cani-card__icon">
-<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3.5a6 6 0 0 1 5 5"/><path d="M14.5 7a3 3 0 0 1 2.5 2.5"/><path d="M5 4h3.6l1.5 4-2.1 1.4a12 12 0 0 0 5.6 5.6l1.4-2.1 4 1.5V20a1.6 1.6 0 0 1-1.7 1.6A16.5 16.5 0 0 1 3.4 5.7 1.6 1.6 0 0 1 5 4z"/></svg>
-</span>
-<span>
-<span class="cani-card__t">Hosted Voice</span>
-<span class="cani-card__d">Cloud phone systems &amp; VoIP for modern teams.</span>
+<span class="cani-card__t">Mobile</span>
+<span class="cani-card__d">Business mobile on the UK's leading networks.</span>
 </span>
 </a>
 
 </div>
 </div>
 
-<a class="cani-feat" href="#" target="_top">
-<span class="deco a"></span><span class="deco b"></span>
-<span class="cani-feat__tag">FEATURED</span>
+<div class="cani-explore">
+<div class="cani-eyebrow">Explore</div>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/free-bill-review" target="_top">Products &amp; Services</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/about" target="_top">About</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/support" target="_top">Support</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/help" target="_top">Resources</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/contact" target="_top">Contact</a>
+</div>
+
+<div>
+<div class="cani-eyebrow">Featured</div>
+<a class="cani-feat" href="https://shaungordon3.wixstudio.com/my-site-4/" target="_top">
+<span class="cani-feat__tag">Featured</span>
 <span class="cani-feat__h">SignalHub</span>
 <span class="cani-feat__p">See every network, device and connection across your business in one live view.</span>
-<span class="cani-feat__cta">Explore SignalHub
+<span class="cani-feat__cta">Discover SignalHub
 <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </span>
 </a>
 </div>
 
+</div>
+</div>
+
 <div class="cani-mega__foot">
-<div class="cani-trust"><span class="stars">★★★★★</span> Rated excellent by UK businesses</div>
-<a class="cani-viewall" href="#" target="_top">View all products
+<div class="cani-trust">Independent UK telecoms specialists &mdash; 25+ years.</div>
+<a class="cani-viewall" href="https://shaungordon3.wixstudio.com/my-site-4/free-bill-review" target="_top">View all products
 <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 </div>
@@ -325,12 +383,22 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 
 <div class="cani-mobile">
 <div class="cani-mobile__in">
-<div class="eyebrow">Products</div>
-<a href="#" target="_top">Business Mobiles</a>
-<a href="#" target="_top">Business Broadband &amp; Fibre</a>
-<a href="#" target="_top">SIM Only</a>
-<a href="#" target="_top">Lease Lines</a>
-<a href="#" target="_top">Hosted Voice</a>
+<!-- MEGA-LIGHT 2026-07-26: Products is a clean accordion (no hover dependency,
+     44px targets); services + routes mirror the service rail; Vehicle Tracking
+     stays non-navigational until a real destination exists. -->
+<div class="cani-macc" id="caniMacc">
+<button class="cani-macc__btn" id="caniMaccBtn" aria-expanded="false" aria-controls="caniMaccList">
+<span>Products</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<div class="cani-macc__list" id="caniMaccList">
+<span class="nolink">Vehicle Tracking</span>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/hosted-telephony" target="_top">Hosted Telephony</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/hosted-telephony#soft-phone" target="_top">Soft Phone</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/broadband-connectivity" target="_top">Connectivity</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/free-bill-review" target="_top">Mobile</a>
+</div>
+</div>
 <div class="hr"></div>
 <a class="strong" href="/about" target="_top">About</a>
 <a class="strong" href="https://shaungordon3.wixstudio.com/my-site-4/support" target="_top">Support</a>
@@ -349,20 +417,37 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 function build(host){
 if (host._init) return; host._init = true;
 var root = host.attachShadow({mode:'open'});
-root.innerHTML = '<style>'+CSS+'/* === WHITE HEADER THEME · CANIREV:white-header-staging-20260724 · colours/bg/border/logo only === */.cani-nav{--cani-rev:"white-header-staging-20260724" !important;background:#FFFFFF !important;border-bottom:1px solid #E8E8EA !important;box-shadow:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;}.cani-link{color:#1F1F1F !important;}.cani-trigger{color:#1F1F1F !important;}.cani-trigger svg{color:#1F1F1F !important;}.cani-eyebrow{color:#5B6573 !important;}.cani-phone{color:#1F1F1F !important;}.cani-phone__num{color:#1F1F1F !important;}.cani-phone__lbl{color:#5B6573 !important;}.cani-phone__ic{background:rgba(236,16,128,.10) !important;border-color:rgba(236,16,128,.30) !important;}.cani-burger{border-color:rgba(31,31,31,.22) !important;background:rgba(31,31,31,.05) !important;}.cani-cta,.cani-cta *{color:#FFFFFF !important;}</style>'+MARKUP;
+root.innerHTML = '<style>'+CSS+'/* === WHITE HEADER THEME · CANIREV:white-header-staging-20260724 · colours/bg/border/logo only === */.cani-nav{--cani-rev:"white-header-staging-20260724" !important;background:#FFFFFF !important;border-bottom:1px solid #E8E8EA !important;box-shadow:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;}.cani-link{color:#1F1F1F !important;}.cani-trigger{color:#1F1F1F !important;}.cani-trigger svg{color:#1F1F1F !important;}.cani-eyebrow{color:#5B6573 !important;}.cani-phone{color:#1F1F1F !important;}.cani-phone__num{color:#1F1F1F !important;}.cani-phone__lbl{color:#5B6573 !important;}.cani-phone__ic{background:rgba(236,16,128,.10) !important;border-color:rgba(236,16,128,.30) !important;}.cani-burger{border-color:rgba(31,31,31,.22) !important;background:rgba(31,31,31,.05) !important;}.cani-cta,.cani-cta *{color:#FFFFFF !important;}/* MEGA-LIGHT colour lockdown (the legacy dark-theme catch-alls come later in CSS order) */.cani-mega .cani-card__t{color:#1F1F1F !important;}.cani-mega .cani-card:hover .cani-card__t{color:#000000 !important;}.cani-mega .cani-card__d{color:#5B6573 !important;}.cani-mega .cani-card__icon{color:#1F1F1F !important;}.cani-mega .cani-card:hover .cani-card__icon{color:#E6007E !important;}.cani-mega .cani-explore a{color:#1F1F1F !important;}.cani-mega .cani-explore a:hover{color:#000000 !important;}.cani-mega .cani-eyebrow{color:#5B6573 !important;}.cani-mega .cani-feat__tag{color:#E6007E !important;}.cani-mega .cani-feat__h{color:#1F1F1F !important;}.cani-mega .cani-feat__p{color:#5B6573 !important;}.cani-mega .cani-feat__cta{color:#E6007E !important;}.cani-mega .cani-trust{color:#5B6573 !important;}.cani-mega .cani-viewall{color:#E6007E !important;}</style>'+MARKUP;
 var products = root.getElementById('caniProducts');
 var trigger = root.getElementById('caniTrigger');
 var resources = root.getElementById('caniResources');
 var resTrigger = root.getElementById('caniResTrigger');
 var navEl = root.getElementById('caniNav');
 var burger = root.getElementById('caniBurger');
-if (trigger) trigger.addEventListener('click', function(e){ e.preventDefault(); var o=products.classList.toggle('open'); trigger.setAttribute('aria-expanded', o?'true':'false'); });
+/* MEGA-LIGHT behaviour: real button + aria-expanded/controls, hover-intent
+   (70ms open / 240ms close so trigger->panel pointer travel never flickers),
+   Escape closes AND returns focus to Products, focus leaving the group closes
+   (no focus trap - it is navigation, not a modal), outside click closes. */
+function setMegaOpen(o){ if(!products) return; products.classList.toggle('open', !!o); if(trigger) trigger.setAttribute('aria-expanded', o?'true':'false'); }
+var megaHoverT=null, megaCloseT=null;
+var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+if (trigger) trigger.addEventListener('click', function(e){ e.preventDefault(); setMegaOpen(!products.classList.contains('open')); });
+if (canHover && products){
+  products.addEventListener('pointerenter', function(){ clearTimeout(megaCloseT); megaHoverT=setTimeout(function(){ setMegaOpen(true); }, 70); });
+  products.addEventListener('pointerleave', function(){ clearTimeout(megaHoverT); megaCloseT=setTimeout(function(){ setMegaOpen(false); }, 240); });
+}
+if (products) products.addEventListener('focusout', function(e){ if(!products.contains(e.relatedTarget)) setMegaOpen(false); });
 if (resTrigger) resTrigger.addEventListener('click', function(e){ e.preventDefault(); var o=resources.classList.toggle('open'); resTrigger.setAttribute('aria-expanded', o?'true':'false'); });
 document.addEventListener('click', function(e){ var p=e.composedPath?e.composedPath():[];
-if(products&&p.indexOf(products)===-1){ products.classList.remove('open'); if(trigger) trigger.setAttribute('aria-expanded','false'); }
+if(products&&p.indexOf(products)===-1){ setMegaOpen(false); }
 if(resources&&p.indexOf(resources)===-1){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ if(products){ products.classList.remove('open'); if(trigger) trigger.setAttribute('aria-expanded','false'); } if(resources){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } } });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape'){
+if(products&&products.classList.contains('open')){ setMegaOpen(false); if(trigger) trigger.focus(); }
+if(resources){ resources.classList.remove('open'); if(resTrigger) resTrigger.setAttribute('aria-expanded','false'); } } });
 if (burger) burger.addEventListener('click', function(){ var o=navEl.classList.toggle('mobile-open'); burger.setAttribute('aria-expanded', o?'true':'false'); });
+var maccBtn = root.getElementById('caniMaccBtn');
+var macc = root.getElementById('caniMacc');
+if (maccBtn && macc) maccBtn.addEventListener('click', function(){ var o=macc.classList.toggle('open'); maccBtn.setAttribute('aria-expanded', o?'true':'false'); });
 }
 function fitHeaderSection(hostEl){
   /* SECFIT:header-section-fit-20260724 — shrink the Wix header section (#comp-mqhessxi, ~140px)
