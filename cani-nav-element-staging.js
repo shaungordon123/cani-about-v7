@@ -81,7 +81,10 @@ min-height:44px;box-sizing:border-box;text-decoration:none;transition:background
 .cani-card__icon{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:26px;height:26px;
 margin-top:2px;color:#1F1F1F;transition:color .18s ease;}
 .cani-card:hover .cani-card__icon{color:#E6007E;}
-.cani-card__t{display:block;font-size:17px;font-weight:600;color:#1F1F1F;line-height:1.25;letter-spacing:-.01em;transition:color .18s ease;} /* MEGA-1PX: 18 -> 17 */
+.cani-card__t{display:block;font-size:16px;font-weight:600;color:#1F1F1F;line-height:1.25;letter-spacing:-.01em;transition:color .18s ease;} /* MEGA-7 2026-07-26: 17 -> 16 (item-title -1px; family/weight/colour/line-height unchanged) */
+/* MEGA-7: title-only cards (no approved description yet) centre their single line in the 44px row */
+.cani-card--solo{align-items:center;}
+.cani-card--solo .cani-card__icon{margin-top:0;}
 .cani-card:hover .cani-card__t{color:#000000;}
 .cani-card__d{display:block;margin-top:3px;font-size:12px;font-weight:500;color:#5B6573;line-height:1.5;} /* MEGA-1PX: 13 -> 12 */
 
@@ -138,6 +141,9 @@ color:#E6007E;text-decoration:none;}
 .cani-resources:hover .cani-trigger svg,.cani-resources.open .cani-trigger svg{
 transform:rotate(180deg);color:var(--accent);}
 .cani-mega__grid--links{grid-template-columns:1fr 1fr 1fr;}
+/* MEGA-7 2026-07-26: Resources primary item-titles -1px (16 -> 15) — scoped to the
+   links-variant grid so the Products menu's secondary Explore column keeps 16px. */
+.cani-mega__grid--links .cani-explore a,.cani-mega__grid--links .cani-explore .nolink{font-size:15px;}
 
 /* ---- RIGHT SIDE ---- */
 .cani-right{display:flex;align-items:center;gap:18px;flex:0 0 auto;}
@@ -172,7 +178,7 @@ border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:p
 .cani-mobile{overflow:hidden;max-height:0;opacity:0;background:rgba(12,4,8,.97);
 backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
 transition:max-height .3s ease,opacity .25s ease;}
-.cani-nav.mobile-open .cani-mobile{max-height:640px;opacity:1;}
+.cani-nav.mobile-open .cani-mobile{max-height:800px;opacity:1;} /* MEGA-7: 640 -> 800 — the 7-item Products accordion open exceeded 640 (verified collision) */
 .cani-mobile__in{padding:14px 22px 22px;display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(255,255,255,.08);}
 .cani-mobile a{padding:11px 4px;font-size:15px;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;}
 .cani-mobile a.strong{font-weight:700;color:#fff;}
@@ -291,10 +297,31 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M10.5 17.5h3"/><path d="M10.5 8.5v3M12.5 6.5v5M14.5 9.5v2"/></svg>
 </span>
 <span>
-<span class="cani-card__t">Mobile</span>
+<span class="cani-card__t">Business Mobiles</span>
 <span class="cani-card__d">Business mobile on the UK's leading networks.</span>
 </span>
 </a>
+
+<!-- MEGA-7 2026-07-26: two new entries. No verified destination exists for either
+     (staging /ai-integration + /account-management 404) -> non-interactive nolink,
+     recorded; no approved description exists -> title-only (none invented). -->
+<span class="cani-card nolink cani-card--solo">
+<span class="cani-card__icon">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2l1.7 3.9 3.9 1.7-3.9 1.7-1.7 3.9-1.7-3.9-3.9-1.7 3.9-1.7z"/><path d="M18.6 14.6l.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9z"/><path d="M5.4 16.2l.7 1.5 1.5.7-1.5.7-.7 1.5-.7-1.5-1.5-.7 1.5-.7z"/></svg>
+</span>
+<span>
+<span class="cani-card__t">AI Integration Solutions</span>
+</span>
+</span>
+
+<span class="cani-card nolink cani-card--solo">
+<span class="cani-card__icon">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5v-1a7.5 7.5 0 0 1 15 0v1"/><rect x="3.2" y="12.2" width="3.6" height="5.6" rx="1.5"/><rect x="17.2" y="12.2" width="3.6" height="5.6" rx="1.5"/><path d="M19 17.8v.7a2.3 2.3 0 0 1-2.3 2.3h-3.3"/></svg>
+</span>
+<span>
+<span class="cani-card__t">Account Management</span>
+</span>
+</span>
 
 </div>
 </div>
@@ -410,7 +437,9 @@ var MARKUP = `<nav class="cani-nav" id="caniNav">
 <a href="https://shaungordon3.wixstudio.com/my-site-4/hosted-telephony" target="_top">Hosted Telephony</a>
 <a href="https://shaungordon3.wixstudio.com/my-site-4/hosted-telephony#soft-phone" target="_top">Soft Phone</a>
 <a href="https://shaungordon3.wixstudio.com/my-site-4/broadband-connectivity" target="_top">Connectivity</a>
-<a href="https://shaungordon3.wixstudio.com/my-site-4/free-bill-review" target="_top">Mobile</a>
+<a href="https://shaungordon3.wixstudio.com/my-site-4/free-bill-review" target="_top">Business Mobiles</a>
+<span class="nolink">AI Integration Solutions</span>
+<span class="nolink">Account Management</span>
 </div>
 </div>
 <div class="hr"></div>
