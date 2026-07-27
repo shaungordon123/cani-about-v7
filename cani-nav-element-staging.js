@@ -120,6 +120,12 @@ color:#E6007E;text-decoration:none;}
 .cani-viewall:hover svg{transform:translateX(3px);}
 .cani-viewall:focus-visible{outline:2px solid #E6007E;outline-offset:2px;}
 
+/* Reference-menu hover treatment: glyphs resolve left-to-right while the
+   original link geometry remains stable. Mixed text/icon labels receive a
+   measured inline wrapper so their arrow never jitters during the scramble. */
+.cani-scramble-text{white-space:pre;}
+.cani-scramble-inline{display:inline-block;width:var(--cani-scramble-w,auto);}
+
 /* tablet: two content columns, featured spans full width beneath */
 @media (max-width:1100px){
   .cani-mega__grid{grid-template-columns:1fr 1fr;gap:36px;}
@@ -130,6 +136,7 @@ color:#E6007E;text-decoration:none;}
   .cani-products.open .cani-mega,.cani-resources.open .cani-mega{transform:none;}
   .cani-feat__cta svg,.cani-viewall svg{transition:none;}
   .cani-feat:hover .cani-feat__cta svg,.cani-viewall:hover svg{transform:none;}
+  .cani-scramble-text{white-space:normal;}
 }
 
 /* ---- RESOURCES DROPDOWN — MEGA-LIGHT consistency pass (2026-07-26): shares the
@@ -508,6 +515,166 @@ if (burger) burger.addEventListener('click', function(){ var o=navEl.classList.t
   var btn = root.getElementById(ids[0]), acc = root.getElementById(ids[1]);
   if (btn && acc) btn.addEventListener('click', function(){ var o=acc.classList.toggle('open'); btn.setAttribute('aria-expanded', o?'true':'false'); });
 });
+
+/* CANIREV:menu-glyph-scramble-20260727
+   The supplied reference resolves random glyphs from left to right in about
+   half a second and pairs the changes with restrained electronic ticks.
+   This is deliberately scoped to real links in both desktop mega menus:
+   non-link placeholders do not receive click-like feedback. No audio asset or
+   network request is needed; Web Audio creates the short tones locally. */
+var scrambleMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+var scrambleReduced = !!(scrambleMotion && scrambleMotion.matches);
+var scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+var scrambleAudio = null;
+var scrambleAudioUnlocked = false;
+
+if (scrambleMotion) {
+  var onScrambleMotionChange = function(e){ scrambleReduced = !!e.matches; };
+  if (scrambleMotion.addEventListener) scrambleMotion.addEventListener('change', onScrambleMotionChange);
+  else if (scrambleMotion.addListener) scrambleMotion.addListener(onScrambleMotionChange);
+}
+
+function unlockScrambleAudio(){
+  if (scrambleAudioUnlocked) return;
+  var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return;
+  try {
+    if (!scrambleAudio) scrambleAudio = new AudioContextClass();
+    var resume = scrambleAudio.state === 'suspended' ? scrambleAudio.resume() : null;
+    if (resume && resume.then) {
+      resume.then(function(){ scrambleAudioUnlocked = scrambleAudio.state === 'running'; }).catch(function(){});
+    } else {
+      scrambleAudioUnlocked = scrambleAudio.state === 'running';
+    }
+  } catch(e){}
+}
+
+function playScrambleTick(step, finalTick){
+  if (scrambleReduced) return;
+  unlockScrambleAudio();
+  if (!scrambleAudio || scrambleAudio.state !== 'running') return;
+  try {
+    var now = scrambleAudio.currentTime;
+    var oscillator = scrambleAudio.createOscillator();
+    var gain = scrambleAudio.createGain();
+    oscillator.type = finalTick ? 'sine' : 'square';
+    oscillator.frequency.setValueAtTime(finalTick ? 1180 : 760 + ((step * 173) % 620), now);
+    gain.gain.setValueAtTime(finalTick ? .018 : .009, now);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + (finalTick ? .026 : .012));
+    oscillator.connect(gain);
+    gain.connect(scrambleAudio.destination);
+    oscillator.start(now);
+    oscillator.stop(now + (finalTick ? .028 : .014));
+  } catch(e){}
+}
+
+function randomScrambleGlyph(source){
+  var glyph = scrambleChars.charAt(Math.floor(Math.random() * scrambleChars.length));
+  if (source >= 'a' && source <= 'z') return glyph.toLowerCase();
+  return glyph;
+}
+
+function renderScramble(original, lockedCount){
+  var mutableIndex = 0;
+  var output = '';
+  for (var i = 0; i < original.length; i++) {
+    var source = original.charAt(i);
+    if (!/[A-Za-z0-9]/.test(source)) {
+      output += source;
+      continue;
+    }
+    output += mutableIndex < lockedCount ? source : randomScrambleGlyph(source);
+    mutableIndex++;
+  }
+  return output;
+}
+
+function wrapScrambleText(element){
+  var childNodes = Array.prototype.slice.call(element.childNodes || []);
+  var directTextNodes = childNodes.filter(function(node){
+    return node.nodeType === 3 && node.nodeValue && node.nodeValue.trim();
+  });
+  if (!directTextNodes.length || !element.children.length) return element;
+
+  var wrapper = document.createElement('span');
+  wrapper.className = 'cani-scramble-text cani-scramble-inline';
+  wrapper.textContent = directTextNodes.map(function(node){ return node.nodeValue.trim(); }).join(' ');
+  element.insertBefore(wrapper, directTextNodes[0]);
+  directTextNodes.forEach(function(node){ node.remove(); });
+  return wrapper;
+}
+
+function runScramble(label){
+  if (!label || scrambleReduced) return;
+  var original = label.getAttribute('data-cani-scramble-label') || label.textContent.trim();
+  if (!original) return;
+  label.setAttribute('data-cani-scramble-label', original);
+
+  if (label.classList.contains('cani-scramble-inline') && !label.style.getPropertyValue('--cani-scramble-w')) {
+    /* Combined-review correction (CANIREV:menu-glyph-scramble-20260727):
+       lock to the EXACT measured width - Math.ceil produced a one-time
+       sub-pixel (<=1px) settle of the trailing arrow on the first hover. */
+    label.style.setProperty('--cani-scramble-w', label.getBoundingClientRect().width + 'px');
+  }
+
+  var runId = (label._caniScrambleRun || 0) + 1;
+  label._caniScrambleRun = runId;
+  var mutableTotal = (original.match(/[A-Za-z0-9]/g) || []).length;
+  var start = performance.now();
+  var duration = 520;
+  var lastFrame = -1;
+
+  function frame(now){
+    if (label._caniScrambleRun !== runId) return;
+    var progress = Math.min(1, (now - start) / duration);
+    var frameIndex = Math.floor((now - start) / 34);
+    if (frameIndex !== lastFrame) {
+      lastFrame = frameIndex;
+      var eased = 1 - Math.pow(1 - progress, 2.2);
+      var locked = Math.floor(eased * mutableTotal);
+      label.textContent = renderScramble(original, locked);
+      if (frameIndex % 2 === 0) playScrambleTick(frameIndex, false);
+    }
+    if (progress < 1) {
+      label._caniScrambleFrame = requestAnimationFrame(frame);
+    } else {
+      label.textContent = original;
+      playScrambleTick(frameIndex, true);
+    }
+  }
+
+  if (label._caniScrambleFrame) cancelAnimationFrame(label._caniScrambleFrame);
+  label._caniScrambleFrame = requestAnimationFrame(frame);
+}
+
+Array.prototype.forEach.call(root.querySelectorAll('.cani-mega a'), function(link){
+  var label = link.querySelector('.cani-card__t, .cani-feat__h') || wrapScrambleText(link);
+  label.classList.add('cani-scramble-text');
+  label.setAttribute('data-cani-scramble-label', label.textContent.trim());
+  /* Combined-review correction (CANIREV:menu-glyph-scramble-20260727):
+     freeze the ACCESSIBLE name to the original label so assistive tech never
+     reads mid-scramble glyphs; the visual text alone animates. The value
+     equals the element's own text, so computed link names are unchanged. */
+  label.setAttribute('aria-label', label.textContent.trim());
+  link.addEventListener('pointerenter', function(e){
+    if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+    runScramble(label);
+  });
+});
+
+/* Combined-review correction (CANIREV:menu-glyph-scramble-20260727): a touch
+   pointerdown (the start of ordinary touch scrolling) must not create an
+   AudioContext - the scramble never runs on touch, so audio is pointless
+   there. Unlock only on mouse/pen pointers or a key press, and only detach
+   the listeners once a qualifying gesture has been consumed. */
+function scrambleUnlockGesture(e){
+  if (e && e.type === 'pointerdown' && e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+  unlockScrambleAudio();
+  document.removeEventListener('pointerdown', scrambleUnlockGesture, true);
+  document.removeEventListener('keydown', scrambleUnlockGesture, true);
+}
+document.addEventListener('pointerdown', scrambleUnlockGesture, { capture:true });
+document.addEventListener('keydown', scrambleUnlockGesture, { capture:true });
 }
 function fitHeaderSection(hostEl){
   /* SECFIT:header-section-fit-20260724 — shrink the Wix header section (#comp-mqhessxi, ~140px)
