@@ -516,15 +516,26 @@ if (burger) burger.addEventListener('click', function(){ var o=navEl.classList.t
   if (btn && acc) btn.addEventListener('click', function(){ var o=acc.classList.toggle('open'); btn.setAttribute('aria-expanded', o?'true':'false'); });
 });
 
-/* CANIREV:menu-glyph-scramble-20260727
+/* CANIREV:menu-glyph-scramble-20260727 (rev 2, Shaun-directed correction)
    The supplied reference resolves random glyphs from left to right in about
    half a second and pairs the changes with restrained electronic ticks.
-   This is deliberately scoped to real links in both desktop mega menus:
-   non-link placeholders do not receive click-like feedback. No audio asset or
-   network request is needed; Web Audio creates the short tones locally. */
+   Rev 2 (2026-07-27): cadence is now FRAME-STEP driven, not an elapsed-time
+   ease-out - ~3 full-scramble updates (~100-120ms, zero locked) then ~12
+   progressive updates resolving steadily left to right (~510ms total); a
+   throttled frame advances at most one step, so a stall can never resolve
+   most of the word in one jump. Unresolved glyphs are UPPERCASE LETTERS
+   ONLY (no digits), never the correct source character and never the glyph
+   shown at that position on the previous update. Coverage: 24 desktop menu
+   controls - the 14 active mega-menu links, the five top-level menu controls
+   (Products, About, Support, Resources, Contact) and, per Shaun's scope
+   corrections, the five non-link dropdown entries (Vehicle Tracking,
+   AI Integration Solutions, Account Management, Telecoms Review,
+   Industries - visual animation only, still not links). The Get in touch
+   CTA and the telephone control are deliberately excluded. No audio asset
+   or network request is needed; Web Audio creates the short tones locally. */
 var scrambleMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
 var scrambleReduced = !!(scrambleMotion && scrambleMotion.matches);
-var scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+var scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var scrambleAudio = null;
 var scrambleAudioUnlocked = false;
 
@@ -568,33 +579,48 @@ function playScrambleTick(step, finalTick){
   } catch(e){}
 }
 
-function randomScrambleGlyph(source){
-  var glyph = scrambleChars.charAt(Math.floor(Math.random() * scrambleChars.length));
-  if (source >= 'a' && source <= 'z') return glyph.toLowerCase();
+/* Rev 2: temporary glyphs are uppercase letters only, never the correct
+   character for that position and never the glyph shown there on the
+   previous update - every unresolved position visibly changes each frame. */
+function randomScrambleGlyph(source, previous){
+  var glyph;
+  do {
+    glyph = scrambleChars.charAt(Math.floor(Math.random() * scrambleChars.length));
+  } while (glyph === source.toUpperCase() || glyph === previous);
   return glyph;
 }
 
-function renderScramble(original, lockedCount){
+function renderScramble(original, lockedCount, previousGlyphs){
   var mutableIndex = 0;
   var output = '';
+  var glyphs = [];
   for (var i = 0; i < original.length; i++) {
     var source = original.charAt(i);
     if (!/[A-Za-z0-9]/.test(source)) {
       output += source;
       continue;
     }
-    output += mutableIndex < lockedCount ? source : randomScrambleGlyph(source);
+    if (mutableIndex < lockedCount) {
+      output += source;
+      glyphs[mutableIndex] = null;
+    } else {
+      var glyph = randomScrambleGlyph(source, previousGlyphs ? previousGlyphs[mutableIndex] : null);
+      output += glyph;
+      glyphs[mutableIndex] = glyph;
+    }
     mutableIndex++;
   }
-  return output;
+  return { text: output, glyphs: glyphs };
 }
 
-function wrapScrambleText(element){
+function wrapScrambleText(element, force){
   var childNodes = Array.prototype.slice.call(element.childNodes || []);
   var directTextNodes = childNodes.filter(function(node){
     return node.nodeType === 3 && node.nodeValue && node.nodeValue.trim();
   });
-  if (!directTextNodes.length || !element.children.length) return element;
+  /* Rev 2: `force` wraps plain-text top-level controls too, so their width
+     can be locked and the header never moves during the animation. */
+  if (!directTextNodes.length || (!force && !element.children.length)) return element;
 
   var wrapper = document.createElement('span');
   wrapper.className = 'cani-scramble-text cani-scramble-inline';
@@ -620,46 +646,95 @@ function runScramble(label){
   var runId = (label._caniScrambleRun || 0) + 1;
   label._caniScrambleRun = runId;
   var mutableTotal = (original.match(/[A-Za-z0-9]/g) || []).length;
-  var start = performance.now();
-  var duration = 520;
-  var lastFrame = -1;
+  /* Rev 2 cadence: progression is driven by RENDERED UPDATE STEPS, not an
+     elapsed-time ease. ~3 full-scramble steps (locked 0, ~100-120ms), then
+     ~12 progressive steps resolving linearly left to right; 15 steps at a
+     ~34ms floor = ~510ms in a healthy browser. A delayed frame advances at
+     most ONE step, so throttling stretches the animation instead of
+     collapsing most of the word in a single visual jump. */
+  /* 33ms floor = every SECOND 60Hz frame (a 34ms floor quantises to every
+     third frame and stretches the run to ~700ms). 3 full-scramble renders +
+     12 progressive renders + the exact restore = 16 steps x ~33.3ms ~ 530ms. */
+  var STEP_MS = 33;
+  var FULL_STEPS = 3;
+  var RESOLVE_STEPS = 13;
+  var step = 0;
+  var lastUpdate = 0;
+  var previousGlyphs = null;
 
   function frame(now){
     if (label._caniScrambleRun !== runId) return;
-    var progress = Math.min(1, (now - start) / duration);
-    var frameIndex = Math.floor((now - start) / 34);
-    if (frameIndex !== lastFrame) {
-      lastFrame = frameIndex;
-      var eased = 1 - Math.pow(1 - progress, 2.2);
-      var locked = Math.floor(eased * mutableTotal);
-      label.textContent = renderScramble(original, locked);
-      if (frameIndex % 2 === 0) playScrambleTick(frameIndex, false);
+    if (now - lastUpdate >= STEP_MS) {
+      lastUpdate = now;
+      step++;
+      if (step >= FULL_STEPS + RESOLVE_STEPS) {
+        label.textContent = original;
+        playScrambleTick(step, true);
+        return;
+      }
+      var locked = step <= FULL_STEPS
+        ? 0
+        : Math.round((step - FULL_STEPS) * mutableTotal / RESOLVE_STEPS);
+      var rendered = renderScramble(original, locked, previousGlyphs);
+      previousGlyphs = rendered.glyphs;
+      label.textContent = rendered.text;
+      if (step % 2 === 0) playScrambleTick(step, false);
     }
-    if (progress < 1) {
-      label._caniScrambleFrame = requestAnimationFrame(frame);
-    } else {
-      label.textContent = original;
-      playScrambleTick(frameIndex, true);
-    }
+    label._caniScrambleFrame = requestAnimationFrame(frame);
   }
 
   if (label._caniScrambleFrame) cancelAnimationFrame(label._caniScrambleFrame);
   label._caniScrambleFrame = requestAnimationFrame(frame);
 }
 
-Array.prototype.forEach.call(root.querySelectorAll('.cani-mega a'), function(link){
-  var label = link.querySelector('.cani-card__t, .cani-feat__h') || wrapScrambleText(link);
+/* One shared preparation path for every genuine menu control (rev 2).
+   The aria-label freeze keeps the ACCESSIBLE name at the original label so
+   assistive tech never reads mid-scramble glyphs; its value equals the
+   element's own text, so computed names are unchanged. */
+function prepareScramble(interactive, label){
+  if (!label) return;
   label.classList.add('cani-scramble-text');
   label.setAttribute('data-cani-scramble-label', label.textContent.trim());
-  /* Combined-review correction (CANIREV:menu-glyph-scramble-20260727):
-     freeze the ACCESSIBLE name to the original label so assistive tech never
-     reads mid-scramble glyphs; the visual text alone animates. The value
-     equals the element's own text, so computed link names are unchanged. */
   label.setAttribute('aria-label', label.textContent.trim());
-  link.addEventListener('pointerenter', function(e){
+  interactive.addEventListener('pointerenter', function(e){
     if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
     runScramble(label);
   });
+}
+
+/* The 14 active mega-menu links: card titles, the featured heading, or a
+   measured wrapper for mixed text+SVG rows (View all products). */
+Array.prototype.forEach.call(root.querySelectorAll('.cani-mega a'), function(link){
+  prepareScramble(link, link.querySelector('.cani-card__t, .cani-feat__h') || wrapScrambleText(link));
+});
+
+/* Rev 2: the five top-level menu controls. The Products/Resources triggers
+   already isolate their text in a span beside the caret SVG - only that span
+   animates (width-locked so the caret never moves). Plain-text top-level
+   links receive a forced measured wrapper for the same reason. The Get in
+   touch CTA and the telephone control are intentionally NOT selected;
+   non-link placeholders are not anchors and are never selected. */
+Array.prototype.forEach.call(root.querySelectorAll('.cani-trigger'), function(btn){
+  var span = btn.querySelector('span');
+  if (span) span.classList.add('cani-scramble-inline');
+  prepareScramble(btn, span);
+});
+Array.prototype.forEach.call(root.querySelectorAll('a.cani-link'), function(link){
+  prepareScramble(link, wrapScrambleText(link, true));
+});
+/* Rev 2 scope corrections (Shaun, 2026-07-27): all five non-link dropdown
+   entries join the hover animation - same engine and audio. The three
+   Product cards (Vehicle Tracking, AI Integration Solutions, Account
+   Management) hover on the visual card row and animate the title label; the
+   two Resources entries (Telecoms Review, Industries) animate their own
+   label span. All five remain plain spans: no link/button conversion, no
+   routes, roles, focusability, click handlers, cursor or styling changes.
+   Coverage: 24 animated desktop menu controls. */
+Array.prototype.forEach.call(root.querySelectorAll('.cani-mega .cani-card.nolink'), function(card){
+  prepareScramble(card, card.querySelector('.cani-card__t'));
+});
+Array.prototype.forEach.call(root.querySelectorAll('.cani-mega .cani-explore .nolink'), function(item){
+  prepareScramble(item, item);
 });
 
 /* Combined-review correction (CANIREV:menu-glyph-scramble-20260727): a touch
