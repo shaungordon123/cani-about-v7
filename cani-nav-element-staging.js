@@ -687,7 +687,7 @@ function runScramble(label){
   label._caniScrambleFrame = requestAnimationFrame(frame);
 }
 
-/* One shared preparation path for every genuine menu control (rev 2).
+/* One shared preparation path for every label inside the desktop mega menus.
    The aria-label freeze keeps the ACCESSIBLE name at the original label so
    assistive tech never reads mid-scramble glyphs; its value equals the
    element's own text, so computed names are unchanged. */
@@ -708,28 +708,15 @@ Array.prototype.forEach.call(root.querySelectorAll('.cani-mega a'), function(lin
   prepareScramble(link, link.querySelector('.cani-card__t, .cani-feat__h') || wrapScrambleText(link));
 });
 
-/* Rev 2: the five top-level menu controls. The Products/Resources triggers
-   already isolate their text in a span beside the caret SVG - only that span
-   animates (width-locked so the caret never moves). Plain-text top-level
-   links receive a forced measured wrapper for the same reason. The Get in
-   touch CTA and the telephone control are intentionally NOT selected;
-   non-link placeholders are not anchors and are never selected. */
-Array.prototype.forEach.call(root.querySelectorAll('.cani-trigger'), function(btn){
-  var span = btn.querySelector('span');
-  if (span) span.classList.add('cani-scramble-inline');
-  prepareScramble(btn, span);
-});
-Array.prototype.forEach.call(root.querySelectorAll('a.cani-link'), function(link){
-  prepareScramble(link, wrapScrambleText(link, true));
-});
-/* Rev 2 scope corrections (Shaun, 2026-07-27): all five non-link dropdown
+/* Scope corrections (Shaun, 2026-07-27): all five non-link dropdown
    entries join the hover animation - same engine and audio. The three
    Product cards (Vehicle Tracking, AI Integration Solutions, Account
    Management) hover on the visual card row and animate the title label; the
    two Resources entries (Telecoms Review, Industries) animate their own
    label span. All five remain plain spans: no link/button conversion, no
    routes, roles, focusability, click handlers, cursor or styling changes.
-   Coverage: 24 animated desktop menu controls. */
+   The five top-level header labels are deliberately excluded: only text
+   inside an opened mega menu scrambles. Coverage: 19 internal labels. */
 Array.prototype.forEach.call(root.querySelectorAll('.cani-mega .cani-card.nolink'), function(card){
   prepareScramble(card, card.querySelector('.cani-card__t'));
 });
