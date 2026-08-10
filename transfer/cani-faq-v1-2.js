@@ -1,8 +1,6 @@
 /**
- * CANI-FAQ-V1.2 - V1.1 with the premium-polish motion family: row/CTA
- * entrances 480ms -> 560ms (550-700ms text window) and the cross-section
- * rhythm gate. Rollback: cani-faq-v1-1.js (16,574 B, SHA-256 C6D6436D...10C2).
- *
+ * CANI-FAQ-V1.2 - V1.1 with the premium-polish motion family (rows/CTA
+ * 480ms -> 560ms) and the cross-section rhythm gate.
  * Lineage: CANI-FAQ-V1.1 - V1 plus the approved scroll-triggered entrance.
  *
  * V1 (frozen rollback source: cani-faq-v1.js, 10,236 B,

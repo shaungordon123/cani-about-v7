@@ -1,11 +1,7 @@
 /**
- * CANI-TESTIMONIAL-CAROUSEL-V2.1 - V2 with the premium-polish motion family
- * applied to the ENTRANCE REVEAL ONLY (ease cubic-bezier(0.22,1,0.36,1),
- * 620/700/620ms) plus the cross-section rhythm gate. The 620ms
- * cubic-bezier(0.22,0.61,0.36,1) slide transition is the verbatim reference
- * and is untouched. Rollback: cani-testimonial-carousel-v2.js (77,289 B,
- * SHA-256 448A44AA...EC8C).
- *
+ * CANI-TESTIMONIAL-CAROUSEL-V2.1 - V2 with the premium-polish family on the
+ * ENTRANCE REVEAL ONLY (620/700/620ms, ease .22,1,.36,1) + rhythm gate; the
+ * verbatim 620ms slide transition is untouched.
  * Lineage: V2 - verbatim rebuild of the authoritative reference
  * cani-testimonials-white-10-responsive.html
  * (16,687 B, SHA-256 F91EBF0A53648CA519108300FFA2B6529DF786AFE4F5ACC1FEB45DF042CF2D0E).
